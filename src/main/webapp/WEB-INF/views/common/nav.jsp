@@ -17,9 +17,11 @@
 </head>
 <body>
 <!-- Navigation-->
-<nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav" style="word-break: keep-all;">
+<nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
     <div class="container">
-        <a href="/"><img src="/image/logo_white.png" style="width: 50px; height: 50px"></a> &nbsp;
+        <a href="/">
+            <img src="/image/logo_white.png" style="width: 50px; height: 50px">
+        </a> &nbsp;
         <a class="navbar-brand" href="/">It-Yogurt </a>
         <button class="navbar-toggler text-uppercase font-weight-bold text-white rounded" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             Menu
@@ -51,7 +53,6 @@
             </ul>
         </div>
     </div>
-</body>
 </nav>
 </body>
 </html>

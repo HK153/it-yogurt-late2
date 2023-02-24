@@ -196,6 +196,3 @@ local.properties
 
 # 사용자 추가
 application.properties
-application_backup.properties
-DBConfig.java
-DBSecureTest.java
