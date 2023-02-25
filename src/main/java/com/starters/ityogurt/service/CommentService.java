@@ -18,4 +18,6 @@ public interface CommentService {
 	List<Map<String,String>> getCommentList(int boardSeq);
 	
 	void deleteCommentByCommentSeq (int commentSeq);
+	
+	void deleteCommentByBoardSeq (int boardSeq);
 }

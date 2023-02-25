@@ -44,4 +44,9 @@ public class CategoryServiceImpl implements CategoryService {
 	public void insertCategory(CategoryDTO categoryDTO) {
 		dao.insertCategory(categoryDTO);
 	}
+
+		@Override
+		public int countAllCategory() {
+			return dao.countAllCategory();
+		}
 }
