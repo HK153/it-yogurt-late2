@@ -12,6 +12,7 @@
     <link href="/css/container.css" rel="stylesheet">
      <link href="/css/styles.css" rel="stylesheet">
      <link href="/css/admin.css" rel="stylesheet">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <title> 커뮤니티 | 게시판 </title>
 <style>
     .divCss {
@@ -50,6 +51,7 @@
                         </section>
                     </article>
                     
+                    
                     <section class="mb-2">
                     <div class="d-md-flex justify-content-md-end" >
                     	<c:if test="${sessionScope.user_seq eq oneboard.userSeq || sessionScope.user_seq eq 1 }">
@@ -57,6 +59,9 @@
 	  						<button class="btn me-md-2" style="background-color: #91ACCC;" type="button" onclick="delboard(${oneboard.boardSeq})">삭제</button>
   						</c:if>
   						<button class="btn me-md-2" style="background-color: #91ACCC;" type="button" onclick="location.href='/board/list'">목록</button>
+						<c:if test="${not empty sessionScope.user_seq }">  						
+	  						<button class="btn me-md-2" style="background-color: #fab46e;" type="button" onclick="reportboard(${oneboard.userSeq})">신고</button>
+						</c:if>
 					</div>
                     </section>
                     
@@ -69,7 +74,14 @@
                                 	<input type="hidden" name="boardSeq" value=${oneboard.boardSeq }>
                                 	<input type="hidden" name="userSeq" value="${sessionScope.user_seq }">
                                 	<textarea name="content" class="form-control" rows="3" placeholder="댓글을 쓰려면 로그인이 필요합니다!"></textarea>
-			  						<button type="submit" class="btn me-md-2" style="background-color: #91ACCC;" >등록</button>
+			  						<c:choose>
+			  							<c:when test="${not empty sessionScope.user_seq }">
+					  						<button type="submit" class="btn me-md-2" style="background-color: #91ACCC;" >등록</button>
+			  							</c:when>
+			  							<c:otherwise>
+					  						<button type="submit" class="btn me-md-2" disabled="disabled" style="background-color: #91ACCC;" >등록</button>
+			  							</c:otherwise>
+			  						</c:choose>
                                 </form>
                                 
                                 <!-- Comment List -->
@@ -86,14 +98,19 @@
                                     <div class="dropdown no-arrow">
                                     <c:set var="boardSeq" value="${List.boardSeq}"/>
                                     <c:set var="commentSeq" value="${List.commentSeq}"/>
-                                        <%-- <a style="font-size:small" href="/board/comment/${List.commentSeq}">수정</a>  --%>
                                         <c:choose>
 											<c:when test="${sessionScope.user_seq eq 1 || sessionScope.user_seq eq List.userSeq}">
+											<input type="hidden" value="${List.content }" id="content">
+                                        		<a style="font-size:small; text-decoration: none;" href='javascript:void(0);' onclick="editComment(${List.commentSeq},'${List.content }');">수정</a> 
                                        			<a style="font-size:small; text-decoration: none;" href="/board/comment/${boardSeq }/${commentSeq}">삭제</a>
+                                       		</c:when>
+                                       		<c:when test="${not empty sessionScope.user_seq }">
+                                       			<a style="font-size:small; text-decoration: none; color: #fab46e;" href='javascript:void(0);' onclick="reportcomment(${List.userSeq })">신고</a>                                       		
                                        		</c:when>
                                        		<c:otherwise>
                                        		</c:otherwise>
                                        	</c:choose>
+                                       	
                                     </div>
                                 </div>
                                 <div class="card-body">
@@ -108,7 +125,10 @@
                                     		</div>
                                     	</div>
                                     </div>
+                                       	<div id="edit">
                                         <div style="white-space:pre-wrap;"><c:out value="${List.content}"/></div>
+                                       		
+                                       	</div>
                                     </div>
                                 </div>
 			                				<p style="font-size:small">${List.insertDate}</p>
@@ -120,47 +140,7 @@
 		 									</div>
 		 								
 			               				</c:forEach>
-                            
-                            
-                            <!-- 예제 -->
-                           <!--  <div class="card-body">
-                            	<div class="d-flex">
-                            	<img src="/static/media/avatar-5.b309bbe2.jpg" width="36" height="36" class="rounded-circle me-2" alt="Ashley Briggs">
-                            		<div class="flex-grow-1">
-                            			<small class="float-end text-navy">5m ago</small>
-                            			<strong>Ashley Briggs</strong> started following <strong>Stacie Hall</strong><br>
-                            			<small class="text-muted">Today 7:51 pm</small><br>
-                            		</div>
-                            	</div>
-                            	<hr>
-                            	<div class="d-flex">
-                            	<img src="/static/media/avatar.42a86687.jpg" width="36" height="36" class="rounded-circle me-2" alt="Chris Wood">
-                            		<div class="flex-grow-1">
-                            		<small class="float-end text-navy">30m ago</small><strong>Chris Wood</strong> posted something on <strong>Stacie Hall</strong>'s timeline<br>
-                            		<small class="text-muted">Today 7:21 pm</small>
-                            			<div class="border text-sm text-muted p-2 mt-1">
-                            				Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing...
-                            			</div>
-                            		</div>
-                            	</div>
-                            	<hr>
-                            <div class="d-flex"><img src="/static/media/avatar-4.93166a0c.jpg" width="36" height="36" class="rounded-circle me-2" alt="Stacie Hall">
-                            <div class="flex-grow-1">
-                            	<small class="float-end text-navy">1h ago</small><strong>Stacie Hall</strong> posted a new blog<br>
-                            	<small class="text-muted">Today 6:35 pm</small>
-                            </div>
-                           </div><hr>
-                           <div class="d-grid">
-                           <button type="button" class="btn btn-primary">Load more</button>
-                          </div>
-                          </div> -->
-                            
-                            
-                            
-                            
-                            
-                            
-                                   
+                             
                                     </div>
                                 </div>
                                 
@@ -172,54 +152,31 @@
         </div>  
       
         <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script> -->
         <!-- Core theme JS-->
-        <script src="js/scripts.js"></script>
+        <!-- <script src="js/scripts.js"></script> -->
 
 
 
 
 
-     <%-- <div class="form">
-		<h3 id="main" > 게시판 </h3> <br>
-		<button id= "black" onclick="location.href='/board/list'">목록</button>
-		<table class="form" border=3 style="padding: 0px;">
-		<c:set value="${oneBoard }" var="oneboard"/>
-			<tr>
-				<th> 작성자 </th>
-				<td> ${oneboard.nickname } </td>
-				<th> 작성 시간 </th>
-				<td> ${oneboard.insertDate }</td>
-				
-			</tr>
-			</table>
-			<table class="form" border=3>
-			<tr>
-				<th> 제목 </th>
-				<td> ${oneboard.title } </td>
-				<th style="width:8%;"> 조회수 </th>
-				<td style="width:5%;"> ${oneboard.viewcount }</td>
-			</tr>
-			<tr >
-				<td colspan=6 style="text-align : left; padding: 15px;">${oneboard.content }<td>
-			</tr>
-			
-		</table>
-		
-		
-		
-	</div>
-		<div class="">
-			<button id= "black" onclick="location.href=''">수정</button>
-		</div> --%>
+   
 <%@include file="../common/footer.jsp" %>
-</div>
-</div>
+
+
 </body>
 
 <script>
+/* // 개행 => <br>
+var text = document.getElementById("content").value;
+text = text.replace(/(?:\r\n|\r|\n)/g, '<br>');
+//<br> => enter
+var text = document.getElementById("content").value;
+text = text.replaceAll("<br>", "\r\n"); */
+
+
 function delboard(boardSeq){
-	if (window.confirm("게시물을 삭제하시겠습니까? \n")){
+	if (window.confirm("게시물을 삭제하시겠습니까?\n")){
 		location.href="/board/d/"+boardSeq;
 		alert("게시물 삭제 되었습니다.");		
 	}
@@ -227,11 +184,42 @@ function delboard(boardSeq){
 		alert("삭제가 취소되었습니다.");		
 	}
 }
-// 개행 => <br>
-var text = document.getElementById("content").value;
-text = text.replace(/(?:\r\n|\r|\n)/g, '<br>');
-//<br> => enter
-var text = document.getElementById("content").value;
-text = text.replaceAll("<br>", "\r\n");
+
+function reportboard(userSeq){
+	if (window.confirm(" 게시글을 신고하시겠습니까?\n \n 한번 한 신고는 취소되지 않습니다. \n")){
+		location.href="/board/r/"+userSeq;
+		alert("신고되었습니다.");		
+	}
+	
+}
+function reportcomment(commentSeq){
+	if (window.confirm(" 댓글을 신고하시겠습니까?\n \n 한번 한 신고는 취소되지 않습니다. \n")){
+		location.href="/board/comment/r/"+commentSeq;
+		alert("신고되었습니다.");		
+	}
+	else {
+				
+	}
+}
+
+function editComment(commentSeq, commentContent){
+		let content = $("#content").val();
+		let commentBox ="";
+		let comment= "";
+			
+			commentBox= `<form class="mb-4" action="/board/comment/${commentSeq}" method="post">
+		    	<input type="hidden" name="boardSeq" value=${oneboard.boardSeq }>
+		    	<input type="hidden" name="userSeq" value=${sessionScope.user_seq }>
+		    	<textarea name="content" class="form-control" rows="3" >\${content}</textarea>
+					<button type="submit" class="btn me-md-2" id="commentEdit" style="background-color: #91ACCC;" >수정</button>
+					<button type="reset" class="btn me-md-2" id="commentEdit" style="background-color: #91ACCC;" >취소</button>
+		    </form> `;
+		    
+	$("#edit").html(commentBox);
+}
+	
+	
+
+/* "/board/comment/${List.commentSeq}" */
 </script>
 </html>
