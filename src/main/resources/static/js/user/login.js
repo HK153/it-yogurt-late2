@@ -48,7 +48,7 @@ loginSuceess = (result) => {
   window.location.href = result;
 }
 loginError = (request) => {
-  let str = request ? request.responseJSON.errorMessage
+  let str = request.responseJSON.errorMessage ? request.responseJSON.errorMessage
       : "요청을 처리하던 중 에러가 발생했습니다."
   alert(str);
 }

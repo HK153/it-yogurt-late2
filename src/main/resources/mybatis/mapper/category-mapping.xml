@@ -44,7 +44,7 @@
 	</insert>
 
 <!--사용자가 가장 많이 틀린 카테고리 -->
-	<select id="getWeakCategoryByCategorySeq" resultType="categorydto" parameterType="categorydto">
+	<select id="findWeakCategoryByCategorySeq" resultType="int" parameterType="int">
 		SELECT c.category_seq
 		FROM learn_record l
 					 INNER JOIN quiz q ON l.quiz_seq = q.quiz_seq
@@ -53,5 +53,13 @@
 			AND l.user_seq = ${userSeq}
 		GROUP BY category_seq
 		ORDER BY COUNT(*) DESC, category_seq LIMIT 0,1
+	</select>
+
+<!-- 유저번호를 이용하여 카테고리 찾기 -->	
+	<select id="getCategoryByUserSeq" parameterType="int" resultType="categorydto">
+		SELECT * FROM category c 
+		JOIN user u
+		ON c.category_seq = u.category_seq
+		WHERE user_seq=#{userSeq}
 	</select>
 </mapper>

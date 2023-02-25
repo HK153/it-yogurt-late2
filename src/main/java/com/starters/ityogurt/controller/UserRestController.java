@@ -84,6 +84,10 @@ public class UserRestController {
 
         userService.AfterLoginProcess(result,request.getSession());
 
+        int weakCategory = categoryService.findWeakCategoryByCategorySeq(result.getUserSeq());
+        result.setWeakCategorySeq(weakCategory);
+        int weakSucceess = userService.setWeakCategoryByUser(result);
+
         if(!isStringEmpty(knowSeq))
         {
            return "/quiz/"+knowSeq;

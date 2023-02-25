@@ -1,6 +1,7 @@
 package com.starters.ityogurt.service;
 
 import com.starters.ityogurt.dto.CategoryDTO;
+import com.starters.ityogurt.dto.UserDTO;
 import java.util.List;
 
 public interface CategoryService {
@@ -15,5 +16,11 @@ public interface CategoryService {
     CategoryDTO getCategoryByAllType(CategoryDTO categoryDTO);
 
     void insertCategory(CategoryDTO categoryDTO);
+
+    int findWeakCategoryByCategorySeq(int userSeq);
+
+	CategoryDTO getCategoryByUserSeq(int userSeq);
+    
+	CategoryDTO getCategoryByUserSeq(int userSeq);
     
 }

@@ -40,5 +40,6 @@ public interface UserDAO {
 	
 	void updateUserDeclaration(int user_seq);
 
+	int setWeakCategoryByUser(UserDTO userdto);
 }
 

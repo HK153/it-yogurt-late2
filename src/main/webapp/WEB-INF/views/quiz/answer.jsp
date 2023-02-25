@@ -13,7 +13,17 @@
 <link href="/css/login.css" rel="stylesheet">
 <link href="/css/quiz.css" rel="stylesheet">
 <title>정답 보기</title>
-
+<style type="text/css">
+#listBtn{
+  width: 100%;
+  height: 40px;
+  border-style: solid;
+  border-width: medium;
+  margin: auto;
+  border-color: #91ACCC;
+  font-size: 20px;	
+}
+</style>
 </head>
 <%@include file="../common/nav.jsp"%>
 <body>
@@ -22,7 +32,7 @@
 			<div>
 				<table id="quizTbl">
 					<c:set var="length" value="${fn:length(quizList) }" />
-					<div style="margin-top: 400px;">
+					<div style="margin-top: 300px;">
 						<b>정답수 : ${userAnswerCnt}/3</b><br>
 					</div>
 					<div>
@@ -46,6 +56,7 @@
 								
 								<!-- 정답 및 해설 -->
 									<%-- 로그인sss --%>
+									<div>
 									<c:if test="${userSeq ne 0}">
 									<tr style="margin-top:200px;">
 										<td>
@@ -73,8 +84,9 @@
 											</td>
 									</tr>
 									</c:if>
+									</div>
 									<%-- 비로그인 --%>
-									
+									<div>
 									<c:if test="${userSeq eq 0 }">
 										<tr>
 										<td>
@@ -103,12 +115,22 @@
 											</td>
 									</tr>
 									</c:if>
+									</div>
 								</c:forEach>
 								</div>
 							</table>
+							<div style="width:100%;margin-bottom:80px;">
+								<input type="button" value="매일지식 목록 바로가기" onclick="goKnowledgeList()" id="listBtn">
+								<input type="button" value="목록" onclick="goKnowledgeList()" id="listBtn">
+							</div>
 					</div><!-- 전체 div -->
 		</div><!-- content -->
 	</div>
+<script type="text/javascript">
+	function goKnowledgeList(){
+		location.href="${pageContext.request.contextPath}/knowledge/list?category=all";
+	}
+</script>
 </body>
 <%@include file="../common/footer.jsp"%>
 </html>
