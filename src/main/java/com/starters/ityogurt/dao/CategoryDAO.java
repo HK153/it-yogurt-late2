@@ -24,5 +24,4 @@ public interface CategoryDAO {
 
 	CategoryDTO getCategoryByUserSeq(int userSeq);
 
-
 }

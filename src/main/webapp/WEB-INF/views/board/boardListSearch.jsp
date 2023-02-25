@@ -35,10 +35,9 @@
 			</tr>
 		</thead>			
 			<tbody class="listData">
-			<c:set var="num" value="${paging.totalCount - ((paging.cri.page-1)* 10)}"/>
 			<c:forEach items="${boardList }" var="list">
 			<tr class="tableList" onClick="location.href='/board/${list.boardSeq}'">
-				<td id ="boardSeq">${num}</td>	
+				<td id ="boardSeq">${list.boardSeq }</td>
 				<td>
 				<span class="badge bg-secondary text-decoration-none link-light"> ${list.sub }</span>
 				</td>
@@ -46,7 +45,6 @@
 				<td>${list.nickname }</td>
 				<td>${list.viewcount }</td>
 			</tr>
-			<c:set var="num" value="${num-1 }"></c:set>
 			</c:forEach>
 			</tbody>
 			</table>
@@ -78,14 +76,14 @@
 				</c:otherwise>
 			</c:choose>	        
 	    </c:forEach>
-	    <c:if test="${paging.next && paging.endPage>0}">
+	    <%-- <c:if test="${paging.next && paging.endPage>0}"> --%>
 
 	        <li class="page-item">
 	        	<a href='javascript:void(0);' onclick="go_page(${paging.endPage+1});return false;" class="page-link">
 	        		<i class="fas fa-angle-right"></i>
 	        	</a>
 	        </li>
-		 </c:if>
+		 <%--</c:if> --%>
 	        <li class="page-item">
 	        	<a href='javascript:void(0);' onclick="go_page(${maxpage});return false;" class="page-link">
 	        		<i class="fas fa-angle-double-right"></i>
@@ -121,21 +119,19 @@ function go_page(pageNum){
 		dataType: "json",
 		success: function(result){
 			let list = result.boardList;
-			let paging = result.paging; 
-			let number = (paging.totalCount - ((paging.cri.page-1)* 10));
 			let content = '';
 			for(let i=0;i<list.length;i++){
 				content += '<tr class="tableList" onClick="window.location=\'/board/'+list[i].boardSeq+'\'">';
-				content += '<td id ="boardSeq">' + number +'</td>';
+				content += '<td id ="boardSeq">' + list[i].boardSeq +'</td>';
 				content += '<td><span class="badge bg-secondary text-decoration-none link-light"> '+ list[i].sub +'</span></td>';
 				content +=	'<td style="text-align: left;">'+ list[i].title+ '</td>';
 				content +=	'<td>'+ list[i].nickname + '</td>';
 				content += '<td>' + list[i].viewcount + '</td>';
 				content += '</tr>';
-				number = number-1;
 			}
 			$('.listData').html(content);	
 			
+			let paging = result.paging;
 			let content2 = '';
 			
 				

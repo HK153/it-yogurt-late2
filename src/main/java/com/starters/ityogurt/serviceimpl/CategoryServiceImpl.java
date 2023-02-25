@@ -42,23 +42,24 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void insertCategory(CategoryDTO categoryDTO) {
-        dao.insertCategory(categoryDTO);
-    }
-
-    @Override
     public int findWeakCategoryByCategorySeq(int userSeq) {
         return dao.findWeakCategoryByCategorySeq(userSeq);
     }
 
-    @Override
-    public int countAllCategory() {
-        return dao.countAllCategory();
-    }
 
     @Override
     public CategoryDTO getCategoryByUserSeq(int userSeq) {
         return dao.getCategoryByUserSeq(userSeq);
 
     }
+
+    	@Override
+	public void insertCategory(CategoryDTO categoryDTO) {
+		dao.insertCategory(categoryDTO);
+	}
+
+		@Override
+		public int countAllCategory() {
+			return dao.countAllCategory();
+		}
 }

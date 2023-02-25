@@ -82,4 +82,11 @@
 	<update id="setWeakCategoryByUser" parameterType="userdto">
 		UPDATE user SET weak_category_seq=#{weakCategorySeq} WHERE user_seq = #{userSeq};
 	</update>
+	
+	<update id="updateUserDeclaration" parameterType="int">
+		UPDATE user 
+		SET declaration= declaration +1 
+		WHERE user_seq=#{userSeq}
+	</update>
+	
 </mapper>

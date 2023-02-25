@@ -36,4 +36,7 @@ public interface UserService {
 	void updateUserInfo(Map<Object, Object> map);
 
 	int setWeakCategoryByUser(UserDTO userdto);
+	
+	void updateUserDeclaration(int user_seq);
+
 }

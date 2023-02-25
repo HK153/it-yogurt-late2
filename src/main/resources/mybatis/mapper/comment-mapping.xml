@@ -40,7 +40,7 @@
 	update comment 
 	set	is_private=#{isPrivate},
 		user_seq= #{userSeq},
-		insert_date= now();
+		insert_date= now(),
 		content=#{content}
 	where comment_seq=#{commentSeq}
 </update>
@@ -60,5 +60,11 @@
 	delete
 	from comment
 	where comment_seq = #{commentSeq}
+ </delete>
+ 
+ <delete id="deleteCommentByBoardSeq" parameterType="int">
+ 	delete 
+ 	from comment 
+ 	where board_seq = #{boardSeq}
  </delete>
 </mapper>
