@@ -17,6 +17,7 @@ public interface CategoryService {
 
     void insertCategory(CategoryDTO categoryDTO);
 
+
     int findWeakCategoryByCategorySeq(int userSeq);
 
     CategoryDTO getCategoryByUserSeq(int userSeq);

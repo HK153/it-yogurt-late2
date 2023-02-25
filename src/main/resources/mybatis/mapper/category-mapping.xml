@@ -60,8 +60,8 @@
 		GROUP BY category_seq
 		ORDER BY COUNT(*) DESC, category_seq LIMIT 0,1
 	</select>
-
-	<select id="getCategoryByUserSeq" parameterType="int" resultType="categorydto">
+<!-- 유저번호를 이용하여 카테고리 찾기 -->	
+<select id="getCategoryByUserSeq" parameterType="int" resultType="categorydto">
 		SELECT * FROM category c
 										JOIN user u
 												 ON c.category_seq = u.category_seq

@@ -13,33 +13,34 @@ import com.starters.ityogurt.service.CategoryService;
 @Service("categoryservice")
 public class CategoryServiceImpl implements CategoryService {
 
-    @Autowired
-    CategoryDAO dao;
+	@Autowired
+	CategoryDAO dao;
 
-    @Override
-    public List<CategoryDTO> getAllCategoryList() {
-        return dao.getAllCategoryList();
-    }
+	@Override
+	public List<CategoryDTO> getAllCategoryList() {
+		return dao.getAllCategoryList();
+	}
 
-    public CategoryDTO getCategoryByCategorySeq(String categorySeq) {
-        return dao.getCategoryByCategorySeq(categorySeq);
-    }
+	public CategoryDTO getCategoryByCategorySeq(String categorySeq) {
+		return dao.getCategoryByCategorySeq(categorySeq);
+	}
 
-    @Override
-    public int countAllSub() {
-        return dao.countAllSub();
-    }
+	@Override
+	public int countAllSub() {
+		return dao.countAllSub();
+	}
 
-    @Override
-    public List<CategoryDTO> getCategoryByType(String type, String typeValue) {
-        return dao.getCategoryByType(type, typeValue);
-    }
+	@Override
+	public List<CategoryDTO> getCategoryByType(String type, String typeValue) {
+		return dao.getCategoryByType(type, typeValue);
+	}
 
-    @Override
-    public CategoryDTO getCategoryByAllType(CategoryDTO categoryDTO) {
-        return dao.getCategoryByAllType(categoryDTO);
+	@Override
+	public CategoryDTO getCategoryByAllType(CategoryDTO categoryDTO) {
+		return dao.getCategoryByAllType(categoryDTO);
 
-    }
+	}
+
 
     @Override
     public int findWeakCategoryByCategorySeq(int userSeq) {
@@ -47,17 +48,17 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
 
-    @Override
-    public CategoryDTO getCategoryByUserSeq(int userSeq) {
-        return dao.getCategoryByUserSeq(userSeq);
+   
 
-    }
-
-    	@Override
+  @Override
 	public void insertCategory(CategoryDTO categoryDTO) {
 		dao.insertCategory(categoryDTO);
 	}
 
+	@Override
+	public CategoryDTO getCategoryByUserSeq(int userSeq) {
+		return dao.getCategoryByUserSeq(userSeq);
+	}
 		@Override
 		public int countAllCategory() {
 			return dao.countAllCategory();

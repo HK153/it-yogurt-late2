@@ -39,12 +39,20 @@ import com.starters.ityogurt.service.UserService;
 import com.starters.ityogurt.util.Criteria;
 import com.starters.ityogurt.util.Paging;
 
+
+import jakarta.servlet.http.HttpSession;
+
+
 @Controller
 public class MyPageController {
 
     @Autowired
     @Qualifier("userservice")
     UserService userService;
+    
+    @Autowired
+    @Qualifier("categoryservice")
+    CategoryService categoryService;
 
     @Autowired
     @Qualifier("categoryservice")
@@ -88,14 +96,17 @@ public class MyPageController {
     }
 
     @PostMapping("/mypage/newInfo/{user_seq}")
-    public ModelAndView newInfo(@PathVariable("user_seq") String user_seq, UserDTO userDto) {
+    public ModelAndView newInfo(@PathVariable("user_seq") String user_seq, UserDTO userDto, String newPass) throws Exception {
         ModelAndView mv = new ModelAndView();
+        UserRestController userRestController = new UserRestController();//암호화때문에 객체 생성해줌
+        
         int userSeq = Integer.parseInt(user_seq);
-        System.out.println("유저번호2"+userSeq);
-        System.out.println(userDto.getNickname()+userDto.getEmail()+userDto.getPhone());
+        String pwd = userRestController.ConvertPassword(newPass); //수정한 암호는 암호화 해주기
+        
         Map<Object,Object> map = new HashMap<>();
         map.put("nickname", userDto.getNickname());
         map.put("phone", userDto.getPhone());
+        map.put("password", pwd);
         map.put("userSeq", userSeq);
         userService.updateUserInfo(map);
         userDto = userService.getUserInfo(userSeq);
@@ -104,16 +115,18 @@ public class MyPageController {
         mv.setViewName("user/myPage");
         return mv;
     }
-
+    
     @GetMapping("/mypage/cancel/{user_seq}")
-    public ModelAndView cancel(@PathVariable("user_seq") String user_seq) {
-        ModelAndView mv = new ModelAndView();
-        int userSeq = Integer.parseInt(user_seq);
-        userService.deleteUser(userSeq);
-
-        mv.setViewName("user/login");
-        return mv;
+    public ModelAndView cancel(@PathVariable("user_seq") String user_seq, HttpSession session) {
+    	ModelAndView mv = new ModelAndView();
+    	int userSeq = Integer.parseInt(user_seq);
+    	userService.deleteUser(userSeq);
+    	session.invalidate();
+    	mv.setViewName("/main");
+    	return mv;
     }
+    
+
 
 
     @GetMapping("/mypage/wrong/{user_seq}")
@@ -157,6 +170,7 @@ public class MyPageController {
         recodeservice.updateLearnData(Integer.parseInt(data.getUserChoice()), data.getIsRight(),
             data.getUserSeq(), data.getQuizSeq());
     }
+
 
     @PutMapping("/mypage/weak/answer")
     @ResponseBody
