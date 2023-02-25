@@ -172,8 +172,20 @@ public class BoardController {
 	 }
 	 
 	 //댓글 수정
-	 
+	 @PostMapping("/comment/{commentSeq}")
+	 public ModelAndView updateComment(CommentDTO commentDto,  @PathVariable("commentSeq") int commentSeq) {
+		 ModelAndView mv = new ModelAndView();
+		 commentDto.setCommentSeq(commentSeq);
+		 commentService.updateComment(commentDto);
+		 int boardSeq = commentDto.getBoardSeq();
+		 mv.setViewName("redirect:/board/"+boardSeq+"#comment");
+		 return mv;
+	 }
 	 //댓글 삭제
-	 
+	 @GetMapping("/comment/{boardSeq}/{commentSeq}")
+		public String deleteCommentByCommentSeq(@PathVariable("boardSeq") int boardSeq,@PathVariable("commentSeq") int commentSeq) {
+		 commentService.deleteCommentByCommentSeq(commentSeq);
+		 return "redirect:/board/"+boardSeq+"#comment";
+	 }
 	 
 }

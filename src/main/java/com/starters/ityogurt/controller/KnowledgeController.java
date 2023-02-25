@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.starters.ityogurt.dao.KnowledgeDAO;
+import com.starters.ityogurt.dto.CategoryDTO;
 import com.starters.ityogurt.dto.KnowledgeDTO;
+import com.starters.ityogurt.service.CategoryService;
 import com.starters.ityogurt.service.KnowledgeService;
 import com.starters.ityogurt.util.Criteria;
 import com.starters.ityogurt.util.Paging;
@@ -32,54 +34,10 @@ public class KnowledgeController {
 	@Autowired
 	@Qualifier("knowledgeservice")
 	KnowledgeService service;
-
-//원래 코드
-//	@RequestMapping(value = "/list/{page}", method = { RequestMethod.GET })	
-//	@GetMapping("/list/{page}") //매일지식 list 불러오기
-//	public ModelAndView list(@PathVariable("page") int page) {
-//		ModelAndView mv = new ModelAndView();
-//		int userSeq = 2;
-//		int limit = (page - 1) * 9; // page처리 위해서
-//		int totalCnt = service.getTotalCnt(); // 매일지식 몇 개인지 불러오기
-//        List<KnowledgeDTO> knowledgeList = service.getList(userSeq,limit);
-//        mv.addObject("knowledgeList", knowledgeList);
-//        mv.addObject("totalCnt",totalCnt);
-//        mv.setViewName("knowledge/list");
-//		
-//		return mv;
-//	}
-//	ajax 테스트용
-//	@GetMapping("/list/{page}") //매일지식 list 불러오기
-//	@ResponseBody
-//	public List<KnowledgeDTO> list(@PathVariable("page") int page) {
-//		JSONObject jsonObj = new JSONObject();
-//		int userSeq = 2;
-//		int limit = (page - 1) * 9; // page처리 위해서
-//		int totalCnt = service.getTotalCnt(); // 매일지식 몇 개인지 불러오기
-//        List<KnowledgeDTO> knowledgeList = service.getList(userSeq,limit);
-//        jo.add("knowledgeList", (JsonElement) knowledgeList);
-//        jo.add("totalCnt",totalCnt);
-//        jo.setViewName("knowledge/list");
-//        System.out.println(totalCnt);
-//        jsonObj.put("knowledgeList", knowledgeList);
-////        jsonObj.put("totalCnt", totalCnt);
-//        
-//		return knowledgeList;
-////        return jsonObj;
-//	}
-
-//	@GetMapping("/list/{page}") //매일지식 list 불러오기
-//	@ResponseBody
-//	public Map<String, Object> list2(@PathVariable("page") int page) {
-//	    Map<String, Object> result = new HashMap<>();
-//	    int userSeq = 2;
-//	    int limit = (page - 1) * 9; // page처리 위해서
-//	    int totalCnt = service.getTotalCnt(); // 매일지식 몇 개인지 불러오기
-//	    List<KnowledgeDTO> knowledgeList = service.getList(userSeq,limit);
-//	    result.put("knowledgeList", knowledgeList);
-//	    result.put("totalCnt", totalCnt);
-//	    return result;
-//	}
+	
+	@Autowired
+	@Qualifier("categoryservice")
+	CategoryService categoryService;
 
 	// 게시판 리스트 화면
 	@GetMapping("/list")
@@ -90,16 +48,12 @@ public class KnowledgeController {
 		int limit = (cri.getPage() - 1) * 9;
 		System.out.println("limit" + limit);
 		paging.setCri(cri); // 현재 페이지, 페이지당 보여줄 게시글의 개수
-//		int totalCnt = service.getTotalCnt(); // 전체 게시글 수
-//		int maxPage = (int) ((double) totalCnt / cri.getPerPageNum() + 0.9); // 전체 페이지 수
-//		paging.setTotalCount(totalCnt);
 		
 		int categoryCnt = service.getCategoryCnt(category);
 		int maxPage = (int) ((double) categoryCnt / cri.getPerPageNum() + 0.9); // 전체 페이지 수
 		paging.setTotalCount(categoryCnt);
 
 		Map<Object, Object> map = new HashMap<>();
-//		map.put("userSeq", userSeq);
 		map.put("category", category);
 		map.put("limit", limit);
 		List<KnowledgeDTO> knowledgeList = service.getList(map);
@@ -143,6 +97,12 @@ public class KnowledgeController {
 		String title = service.getTitle(knowSeq);
 		String contents = service.getContents(knowSeq);
 		service.viewCnt(knowSeq);
+		
+		String categorySeq = String.valueOf(service.getCategorySeq(knowSeq));
+		CategoryDTO categoryInfo = categoryService.getCategoryByCategorySeq(categorySeq);
+		
+		
+		mv.addObject("categoryInfo", categoryInfo);
 		mv.addObject("knowSeq", knowSeq);
 		mv.addObject("title", title);
 		mv.addObject("contents", contents);
@@ -150,16 +110,11 @@ public class KnowledgeController {
 		return mv;
 	}
 
-//	@GetMapping("/quiz") //매일지식 폼 확인
-//	public String quiz() {
-//		return "quiz/list";
-//	}
 
 	@RequestMapping("searchResult")
 	public ModelAndView searchResult(String keyword) {
 		ModelAndView mv = new ModelAndView();
 		List<KnowledgeDTO> list = service.getSearchList(keyword);
-//		System.out.println(list);
 
 		mv.addObject("list", list);
 		mv.setViewName("knowledge/searchResult");

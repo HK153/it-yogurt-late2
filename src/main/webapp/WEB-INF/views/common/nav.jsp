@@ -32,11 +32,14 @@
                 <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="<%=request.getContextPath()%>/board/list">커뮤니티</a></li>
                 <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="<%=request.getContextPath()%>/ranking/">랭킹</a></li>
                 <c:choose>
-					<c:when test="${ sessionScope.user_seq eq 1 || sessionScope.user_seq eq 2 } ">	
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="<%=request.getContextPath()%>/admin/page">회원관리</a></li>
+
+					<c:when test="${ sessionScope.user_seq eq 1 || sessionScope.user_seq eq 2}">	
+                    	<li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="<%=request.getContextPath()%>/admin/page">회원관리</a></li>
                 	</c:when>
 					<c:otherwise>
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="<%=request.getContextPath()%>/myPage/${sessionScope.user_seq}">MyPage</a></li>
+                    <c:if test="${not empty sessionScope.user_seq}">
+                            <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="<%=request.getContextPath()%>/mypage/${sessionScope.user_seq}">MyPage</a></li>
+                     </c:if>
 					</c:otherwise>
 				</c:choose>
                 <c:choose>

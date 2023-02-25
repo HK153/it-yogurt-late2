@@ -25,7 +25,7 @@ label {
     margin-top: 23px;
     margin-left: 50px;
 }
-.myBtn{
+#infoBtn{
 	width: 250px;
     height: 40px;
     border-style: solid;
@@ -34,31 +34,24 @@ label {
     border-color: #91ACCC;
     font-size: 20px;
 }
-
-#myBtnDiv{
-	padding: 10% 10% 5% 10%;
-}
-p{/* 태그 색상 변경 */
-	float: right;
-	color: black; 
-	text-decoration: underline;
+#infoDiv{
+	padding: 10% 30% 5% 30%;
 }
 </style>
-</head> 
+</head>
 <body>
 	<div class="container">
 		<%@include file="../common/header.jsp"%>
 		<div class="content">
 		<div style="display: block; width:100%;">
-    	<h1>마이페이지</h1><br>
-		<form action="<%=request.getContextPath()%>/mypage/info/${userDto.userSeq}" method="post">
+		<form action="<%=request.getContextPath()%>/mypage/newInfo/${userDto.userSeq}" method="post">
 			<br>
-			<p>오늘의 지식과 퀴즈를 확인해보셨나요?</p>
+			<p>당신의 새로운 정보를 입력해주세요!</p>
 			<h1>${userDto.nickname}님!</h1><br><br>
 			<b>유저정보</b>
 			<div class="myDiv">
 				<label>닉네임</label>
-				<div style="display: inline;"> ${userDto.nickname}</div>
+				<div style="display: inline;"> <input type="text" value="${userDto.nickname}" name="nickname"></div>
 			</div>
 			<div class="myDiv">
 				<label>이메일</label>
@@ -66,81 +59,19 @@ p{/* 태그 색상 변경 */
 			</div>
 			<div class="myDiv">
 				<label>phone</label>
-				<div style="display: inline;"> ${userDto.phone}</div>
+				<div style="display: inline;"> <input type="text" value="${userDto.phone}" name="phone"></div>
 			</div>
 			<div class="myDiv">
 				<label>가입일자</label>
 				<div style="display: inline;"> ${userDto.insertDate}</div>
 			</div>
-			<p onclick="goDelete()">구독 취소하기</p>
-			<div id="myBtnDiv">
-				<input type="submit" value="정보수정하기" class="myBtn">
-				<input type="button" value="오답노트" class="myBtn"  onclick="window.location.href='/mypage/wrong/${sessionScope.user_seq}'">
-			</div>
+			<div id="infoDiv">
+				<input type="submit" value="수정하기" id="infoBtn">
+			</div>	
 			</form>
 		</div>
 		</div>
 		<%@include file="../common/footer.jsp"%>
 	</div>
-<script type="text/javascript">
-	function goDelete(){
-		let con = confirm('정말 구독을 취소하시겠어요?');
-		if(con == true){
-			alert('구독 취소되었습니다.');
-			location.href="${pageContext.request.contextPath}/mypage";
-		}else{
-			location.href="#";
-		}
-	}
-</script>	
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

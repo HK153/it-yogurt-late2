@@ -39,5 +39,9 @@ public class CategoryServiceImpl implements CategoryService {
         return dao.getCategoryByAllType(categoryDTO);
 
     }
-
-    }
+    
+    	@Override
+	public void insertCategory(CategoryDTO categoryDTO) {
+		dao.insertCategory(categoryDTO);
+	}
+}

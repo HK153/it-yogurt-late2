@@ -4,6 +4,7 @@ import com.starters.ityogurt.dto.CategoryDTO;
 import com.starters.ityogurt.dto.UserDTO;
 import com.starters.ityogurt.error.ApiException;
 import com.starters.ityogurt.service.CategoryService;
+import com.starters.ityogurt.service.EmailService;
 import com.starters.ityogurt.service.UserService;
 import com.starters.ityogurt.util.DateUtil;
 import com.starters.ityogurt.util.Encrypt;
@@ -31,6 +32,9 @@ public class UserRestController {
     @Qualifier("categoryservice")
     CategoryService categoryService;
 
+    @Autowired
+    EmailService emailService;
+
     // 회원가입
     @PostMapping("/user/1")
     public Object SignUp(UserDTO userDTO, CategoryDTO categoryDTO) throws Exception, ApiException {
@@ -50,6 +54,10 @@ public class UserRestController {
 
         userDTO.setCategorySeq(selectedCategory.getCategorySeq());
         int result = userService.insertUser(userDTO);
+
+        UserDTO newUser =userService.getUserByUserEmail(userDTO.getEmail());
+        emailService.sendVerificationEmail(newUser);
+
         return true;
     }
 

@@ -41,5 +41,10 @@ public class CommentServiceImpl implements CommentService {
 	public List<Map<String,String>> getCommentList(int boardSeq) {
 		return dao.getCommentList(boardSeq);
 	}
+
+	@Override
+	public void deleteCommentByCommentSeq(int commentSeq) {
+		dao.deleteCommentByCommentSeq(commentSeq);
+	}
 	
 }

@@ -64,4 +64,12 @@
 	</choose>
 </select>
 
+<select id="getKnowledgeTitle" parameterType="int" resultType="String">
+	SELECT title FROM knowledge WHERE know_seq = #{knowSeq}
+</select>
+
+<select id="getCategorySeq" parameterType="int" resultType="int">
+	SELECT category_seq FROM knowledge WHERE know_seq=#{knowSeq}
+</select>
+
 </mapper>

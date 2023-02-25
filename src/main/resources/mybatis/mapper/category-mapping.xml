@@ -30,5 +30,22 @@
 	<select id="getCategoryByAllType" resultType="categorydto" parameterType="categorydto">
 		SELECT * FROM category WHERE main = #{main} AND middle = #{middle} AND sub = #{sub} AND detail IS NULL;
 	</select>
+	
+<!-- 관리자가 새로운 컨텐츠 추가 (카테고리 추가) -->	
+	<insert id="insertCategory" parameterType="categorydto">
+		INSERT into category(main, middle, sub, detail)
+		values (#{main}, #{middle}, #{sub}, #{detail})
+	</insert>
 
+<!--사용자가 가장 많이 틀린 카테고리 -->
+	<select id="getWeakCategoryByCategorySeq" resultType="categorydto" parameterType="categorydto">
+		SELECT c.category_seq
+		FROM learn_record l
+					 INNER JOIN quiz q ON l.quiz_seq = q.quiz_seq
+					 INNER JOIN (SELECT category_seq, know_seq FROM knowledge) AS c ON c.know_seq = q.know_seq
+		WHERE is_right = 0
+			AND l.user_seq = ${userSeq}
+		GROUP BY category_seq
+		ORDER BY COUNT(*) DESC, category_seq LIMIT 0,1
+	</select>
 </mapper>

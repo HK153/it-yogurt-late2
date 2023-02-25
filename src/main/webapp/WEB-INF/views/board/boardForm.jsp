@@ -104,8 +104,10 @@
 
 </body>
 <script type="text/javascript">
+//enter => <br>
 var text = document.getElementById("content").value;
 text = text.replace(/(?:\r\n|\r|\n)/g, '<br>');
+
 </script>
 <%@include file="../common/footer.jsp" %>
 </html>

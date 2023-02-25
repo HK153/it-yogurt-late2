@@ -23,4 +23,6 @@ public interface CommentDAO {
 	void updateComment(CommentDTO dto);
 
 	List<Map<String,String>> getCommentList(int boardSeq);
+	
+	void deleteCommentByCommentSeq (int commentSeq);
 }

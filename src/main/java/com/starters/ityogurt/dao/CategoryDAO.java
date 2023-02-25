@@ -14,5 +14,6 @@ public interface CategoryDAO {
 	int countAllSub();
 	List<CategoryDTO> getCategoryByType(String type, String typeValue);
 	CategoryDTO getCategoryByAllType(CategoryDTO categoryDTO);
-
+	
+	void insertCategory(CategoryDTO categoryDTO);
 }

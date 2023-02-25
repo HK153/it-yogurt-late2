@@ -15,7 +15,7 @@
 <title> 커뮤니티 | 게시판 </title>
 <style>
     .divCss {
-        margin-top: 15%;
+        margin-top: 7%;
     }
 </style>
 </head>
@@ -23,7 +23,7 @@
 <body style="background-color: #F9F2ED">
 <div class="container divCss">
         <!-- Page content-->
-        <div class="container mt-5">
+        <div class="container">
             <div class="row">
                 <div class="col-lg-auto ">
                     <!-- Post content-->
@@ -71,19 +71,94 @@
                                 	<textarea name="content" class="form-control" rows="3" placeholder="댓글을 쓰려면 로그인이 필요합니다!"></textarea>
 			  						<button type="submit" class="btn me-md-2" style="background-color: #91ACCC;" >등록</button>
                                 </form>
-                                <!-- Comment with nested comments-->
-                                    <!-- Parent comment-->
-			                           <%--  ${commentList.content } --%>
-			                            <c:forEach items="${commentList }" var="List">
+                                
+                                <!-- Comment List -->
+			                    <c:forEach items="${commentList }" var="List">
                                 <div class="d-flex mb-4">
                                     <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
                                     	<div class="ms-3">
-			                				<div class="fw-bold">${List.nickname }</div>
-			                				<div style="white-space:pre-wrap;"><c:out value="${List.content}"/></div>
-			                			</div>	
-			                		</div>	
+			                				
+			                				
+			                				
+			                				
+			                	<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold">${List.nickname }</h6>
+                                    <div class="dropdown no-arrow">
+                                    <c:set var="boardSeq" value="${List.boardSeq}"/>
+                                    <c:set var="commentSeq" value="${List.commentSeq}"/>
+                                        <%-- <a style="font-size:small" href="/board/comment/${List.commentSeq}">수정</a>  --%>
+                                        <c:choose>
+											<c:when test="${sessionScope.user_seq eq 1 || sessionScope.user_seq eq List.userSeq}">
+                                       			<a style="font-size:small; text-decoration: none;" href="/board/comment/${boardSeq }/${commentSeq}">삭제</a>
+                                       		</c:when>
+                                       		<c:otherwise>
+                                       		</c:otherwise>
+                                       	</c:choose>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                    	<div class="chartjs-size-monitor">
+	                                    	<div class="chartjs-size-monitor-expand">
+	                                    		<div class="">
+	                                    		</div>
+	                                    	</div>
+                                    	<div class="chartjs-size-monitor-shrink">
+                                    		<div class="">
+                                    		</div>
+                                    	</div>
+                                    </div>
+                                        <div style="white-space:pre-wrap;"><c:out value="${List.content}"/></div>
+                                    </div>
+                                </div>
+			                				<p style="font-size:small">${List.insertDate}</p>
+			                				
+			                				
+			                				
 		
+		 									</div>	
+		 									</div>
+		 								
 			               				</c:forEach>
+                            
+                            
+                            <!-- 예제 -->
+                           <!--  <div class="card-body">
+                            	<div class="d-flex">
+                            	<img src="/static/media/avatar-5.b309bbe2.jpg" width="36" height="36" class="rounded-circle me-2" alt="Ashley Briggs">
+                            		<div class="flex-grow-1">
+                            			<small class="float-end text-navy">5m ago</small>
+                            			<strong>Ashley Briggs</strong> started following <strong>Stacie Hall</strong><br>
+                            			<small class="text-muted">Today 7:51 pm</small><br>
+                            		</div>
+                            	</div>
+                            	<hr>
+                            	<div class="d-flex">
+                            	<img src="/static/media/avatar.42a86687.jpg" width="36" height="36" class="rounded-circle me-2" alt="Chris Wood">
+                            		<div class="flex-grow-1">
+                            		<small class="float-end text-navy">30m ago</small><strong>Chris Wood</strong> posted something on <strong>Stacie Hall</strong>'s timeline<br>
+                            		<small class="text-muted">Today 7:21 pm</small>
+                            			<div class="border text-sm text-muted p-2 mt-1">
+                            				Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing...
+                            			</div>
+                            		</div>
+                            	</div>
+                            	<hr>
+                            <div class="d-flex"><img src="/static/media/avatar-4.93166a0c.jpg" width="36" height="36" class="rounded-circle me-2" alt="Stacie Hall">
+                            <div class="flex-grow-1">
+                            	<small class="float-end text-navy">1h ago</small><strong>Stacie Hall</strong> posted a new blog<br>
+                            	<small class="text-muted">Today 6:35 pm</small>
+                            </div>
+                           </div><hr>
+                           <div class="d-grid">
+                           <button type="button" class="btn btn-primary">Load more</button>
+                          </div>
+                          </div> -->
+                            
+                            
+                            
+                            
+                            
                             
                                    
                                     </div>
@@ -152,5 +227,8 @@ function delboard(boardSeq){
 		alert("삭제가 취소되었습니다.");		
 	}
 }
+//<br> => enter
+var text = document.getElementById("textarea").value;
+text = text.replaceAll("<br>", "\r\n");
 </script>
 </html>
