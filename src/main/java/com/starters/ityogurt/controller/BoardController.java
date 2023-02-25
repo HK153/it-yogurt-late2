@@ -7,6 +7,7 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -51,6 +52,7 @@ public class BoardController {
 	CommentService commentService;
 	
 	
+	
 
 	//게시판 리스트 화면
 		 @GetMapping(value = { "/list"})  
@@ -67,6 +69,7 @@ public class BoardController {
 				//댓글 개수
 				
 				
+				mv.addObject("totalBoardCnt", totalBoardCnt);
 				mv.addObject("maxpage", maxPage);
 			 	mv.addObject("paging", paging);
 			 	mv.addObject("boardList", boardlist);
@@ -85,6 +88,8 @@ public class BoardController {
 			 int maxPage = (int)((double)totalBoardCnt / cri.getPerPageNum() + 0.9); // 전체 페이지 수
 			 paging.setTotalCount(totalBoardCnt);
 			 List<Map<String,String>> boardlist = boardService.getBoardJoinUser(cri); // 게시글 데이터 가져오기
+			 
+			 jsonObjBoard.put("totalBoardCnt", totalBoardCnt);
 			 jsonObjBoard.put("maxPage", maxPage);
 			 jsonObjBoard.put("paging", paging);
 			 jsonObjBoard.put("boardList", boardlist);
@@ -156,6 +161,7 @@ public class BoardController {
 	//게시글 삭제
 	 @GetMapping("/d/{boardseq}")
 	 public String deleteBoardByBoardSeq(@PathVariable("boardseq") int boardSeq) {
+		 commentService.deleteCommentByBoardSeq(boardSeq);
 		 boardService.deleteBoardByBoardSeq(boardSeq);
 		 return "redirect:/board/list";
 	 }
@@ -187,5 +193,19 @@ public class BoardController {
 		 commentService.deleteCommentByCommentSeq(commentSeq);
 		 return "redirect:/board/"+boardSeq+"#comment";
 	 }
+	 
+	 //글 작성자 신고
+	 @GetMapping("/r/{userseq}")
+	 public String updateDeclarationBoard(@PathVariable("userseq") int userSeq) {
+		 userService.updateUserDeclaration(userSeq);
+		 return "redirect:/board/list";
+	 }
+	 //댓글 작성자 신고
+	 @GetMapping("/comment/r/{userseq}")
+	 public String updateDeclarationComment(@PathVariable("userseq	") int userSeq) {
+		 userService.updateUserDeclaration(userSeq);
+		 return "redirect:/board/list";
+	 }
+	 
 	 
 }

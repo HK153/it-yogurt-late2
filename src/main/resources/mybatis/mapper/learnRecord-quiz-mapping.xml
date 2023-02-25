@@ -11,7 +11,7 @@
            INNER JOIN (SELECT category_seq, know_seq FROM knowledge) AS c ON c.know_seq = q.know_seq
     WHERE is_right = 0 AND l.user_seq = #{userSeq}
     ORDER BY l.quiz_seq
-    LIMIT ${start}, ${limit};
+      LIMIT ${start}, ${limit};
   </select>
 
   <select id="getWrongAnswerCountByUser" resultType="int" parameterType="int">

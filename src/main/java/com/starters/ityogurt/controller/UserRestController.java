@@ -85,19 +85,22 @@ public class UserRestController {
 
         if(!isStringEmpty(knowSeq))
         {
-           return "/quiz/"+knowSeq;
+            return "/quiz/"+knowSeq;
         }
 
         return "/";
     }
-    
+
     // 로그아웃 임시(작동은 하나 오류남)
     @GetMapping("/user/o")
-    public void logout(HttpServletRequest request) {
-    	HttpSession session = request.getSession();
-    	session.invalidate();
+    public ModelAndView logout(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        ModelAndView mv = new ModelAndView();
+        session.invalidate();
+        mv.setViewName("/");
+        return mv;
     }
-    
+
 
     // 비밀번호 암호화
     String ConvertPassword(String pw) throws Exception {

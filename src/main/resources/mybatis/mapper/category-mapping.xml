@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.starters.ityogurt.dao.CategoryDAO">
 
- <select id="getAllCategoryList" resultType="categorydto">
-	SELECT *
-	FROM category ORDER BY category_seq
- </select>
+	<select id="getAllCategoryList" resultType="categorydto">
+		SELECT *
+		FROM category ORDER BY category_seq
+	</select>
 
 	<select id="getCategoryByCategorySeq" resultType="categorydto">
 		SELECT *	FROM category WHERE category_seq = #{categorySeq}  ORDER BY category_seq
@@ -19,26 +19,38 @@
 		FROM category
 		WHERE detail IS NULL
 	</select>
+	
+	<!-- 전체 카테고리 개수 -->
+	<select id="countAllCategory" resultType="int">
+		SELECT count(*)
+		FROM category
+	</select>
+
+	<!-- 전체 카테고리 개수 -->
+	<select id="countAllCategory" resultType="int">
+		SELECT count(*)
+		FROM category
+	</select>
 
 
-<!-- 카테고리 각 type으로 카테고리 목록 찾기,	type = main, middle, sub, detail -->
+	<!-- 카테고리 각 type으로 카테고리 목록 찾기,	type = main, middle, sub, detail -->
 	<select id="getCategoryByType" resultType="categorydto">
 		SELECT * FROM category WHERE ${type} = #{typeValue};
 	</select>
 
-<!-- 사용자가 선택한 매일지식 카테고리 Seq 찾기	-->
+	<!-- 사용자가 선택한 매일지식 카테고리 Seq 찾기	-->
 	<select id="getCategoryByAllType" resultType="categorydto" parameterType="categorydto">
 		SELECT * FROM category WHERE main = #{main} AND middle = #{middle} AND sub = #{sub} AND detail IS NULL;
 	</select>
-	
-<!-- 관리자가 새로운 컨텐츠 추가 (카테고리 추가) -->	
+
+	<!-- 관리자가 새로운 컨텐츠 추가 (카테고리 추가) -->
 	<insert id="insertCategory" parameterType="categorydto">
 		INSERT into category(main, middle, sub, detail)
 		values (#{main}, #{middle}, #{sub}, #{detail})
 	</insert>
 
-<!--사용자가 가장 많이 틀린 카테고리 -->
-	<select id="getWeakCategoryByCategorySeq" resultType="categorydto" parameterType="categorydto">
+	<!--사용자가 가장 많이 틀린 카테고리 -->
+	<select id="findWeakCategoryByCategorySeq" resultType="int" parameterType="int">
 		SELECT c.category_seq
 		FROM learn_record l
 					 INNER JOIN quiz q ON l.quiz_seq = q.quiz_seq
@@ -49,10 +61,10 @@
 		ORDER BY COUNT(*) DESC, category_seq LIMIT 0,1
 	</select>
 <!-- 유저번호를 이용하여 카테고리 찾기 -->	
-	<select id="getCategoryByUserSeq" parameterType="int" resultType="categorydto">
-		SELECT * FROM category c 
-		JOIN user u
-		ON c.category_seq = u.category_seq
+<select id="getCategoryByUserSeq" parameterType="int" resultType="categorydto">
+		SELECT * FROM category c
+										JOIN user u
+												 ON c.category_seq = u.category_seq
 		WHERE user_seq=#{userSeq}
 	</select>
 </mapper>

@@ -46,5 +46,10 @@ public class CommentServiceImpl implements CommentService {
 	public void deleteCommentByCommentSeq(int commentSeq) {
 		dao.deleteCommentByCommentSeq(commentSeq);
 	}
+
+	@Override
+	public void deleteCommentByBoardSeq(int boardSeq) {
+		dao.deleteCommentByBoardSeq(boardSeq);
+	}
 	
 }

@@ -1,31 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-        
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="com.starters.ityogurt.dao.LearnRecordDAO">
 
-<insert id="learnData" parameterType="int">
-	insert into learn_record(is_right, user_choice, user_seq, quiz_seq) values(#{isRight},#{userChoice},#{userSeq},#{quizSeq}) 
-</insert>
+	<insert id="learnData" parameterType="int">
+		insert into learn_record(is_right, user_choice, user_seq, quiz_seq) values(#{isRight},#{userChoice},#{userSeq},#{quizSeq})
+	</insert>
 
-<select id="getLearn" parameterType="int" resultType="learnrecorddto">
-	select * from learn_record where quiz_seq in(#{quizSeq1},#{quizSeq2},#{quizSeq3})
-	
-</select>
+	<select id="getLearn" parameterType="int" resultType="learnrecorddto">
+		select * from learn_record where quiz_seq in(#{quizSeq1},#{quizSeq2},#{quizSeq3})
 
-<delete id="deleteLearnData" parameterType="int">
-	delete
-	from learn_record
-	where user_seq = #{userSeq}
-</delete>
+	</select>
 
-<select id="getUserChoice" parameterType="int" resultType="int">
-	select count(user_choice) from learn_record where user_seq=#{userSeq} and quiz_seq in(#{quizSeq1},#{quizSeq2},#{quizSeq3})
-</select>
+	<delete id="deleteLearnData" parameterType="int">
+		delete
+		from learn_record
+		where user_seq = #{userSeq}
+	</delete>
 
-<update id="updateLearnData" parameterType="int">
-	update learn_record set user_choice =#{userChoice}, is_right=#{isRight} where user_seq=#{userSeq} and quiz_seq=#{quizSeq}
-</update>
+	<select id="getUserChoice" parameterType="int" resultType="int">
+		select count(user_choice) from learn_record where user_seq=#{userSeq} and quiz_seq in(#{quizSeq1},#{quizSeq2},#{quizSeq3})
+	</select>
+
+	<update id="updateLearnData" parameterType="int">
+		update learn_record set user_choice =#{userChoice}, is_right=#{isRight} where user_seq=#{userSeq} and quiz_seq=#{quizSeq}
+	</update>
+
+
 
 </mapper>
