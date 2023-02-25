@@ -17,5 +17,5 @@ public interface QuizDAO {
 
 	int getAnswer(int quizSeq);
 
-	List<QuizDTO> getWeakByUser(int weakCategorySeq);
+	List<QuizDTO> getWeakQuizListByUser(int weakCategorySeq, int start, int end);
 }

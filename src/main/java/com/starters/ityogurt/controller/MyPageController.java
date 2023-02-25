@@ -2,7 +2,9 @@ package com.starters.ityogurt.controller;
 
 import com.starters.ityogurt.dto.LearnRecordDTO;
 import com.starters.ityogurt.dto.LearnRecordQuizDTO;
+import com.starters.ityogurt.dto.QuizDTO;
 import com.starters.ityogurt.dto.UserDTO;
+import com.starters.ityogurt.service.CategoryService;
 import com.starters.ityogurt.service.LearnRecordQuizService;
 import com.starters.ityogurt.service.LearnRecordService;
 import com.starters.ityogurt.service.QuizService;
@@ -50,14 +52,16 @@ public class MyPageController {
     @Autowired
     @Qualifier("categoryservice")
     CategoryService categoryService;
+    
+    @Autowired
+    LearnRecordService recodeservice;
 
     @Autowired
     QuizService quizservice;
-
-    @GetMapping("/mypage/wrong/{user_seq}")
-    public String moveWrongQuizPage(){
-        return "/quiz/wrong";
-    }
+    
+    @Autowired
+    @Qualifier("recodequizservice")
+    LearnRecordQuizService service;
 
     @GetMapping("/mypage/{user_seq}")
     public ModelAndView myPage(@PathVariable("user_seq") String user_seq) {
@@ -117,13 +121,16 @@ public class MyPageController {
     }
 
     // 오답노트
-    
-    @Autowired
-    @Qualifier("recodequizservice")
-    LearnRecordQuizService service;
+   
+    @GetMapping("/mypage/wrong/{user_seq}")
+    public String moveWrongQuizPage(){
+        return "/quiz/wrong";
+    }
 
-    @Autowired
-    LearnRecordService recodeservice;
+    @GetMapping("/mypage/weak/{user_seq}")
+    public String moveWeakQuizPage(){
+        return "/quiz/wrong";
+    }
     
     // 틀린 문제 개수 가져오기. limit 기본값 : 5
     @GetMapping("/mypage/wrong/{user_seq}/list")
@@ -144,22 +151,29 @@ public class MyPageController {
         paging.setTotalCount(totalBoardCnt);
         m.addAttribute("maxPage", maxPage);
         m.addAttribute("paging", paging);
-        m.addAttribute("quizList", list);
+        m.addAttribute("list", list);
 
         return m;
     }
 
     //오답문제 정보 갱신 시
-    @PutMapping("/mypage/wrong/answer/1")
+    @PutMapping("/mypage/wrong/answer")
     @ResponseBody
     public void updateWrongQuiz(@RequestBody LearnRecordDTO data) {
         recodeservice.updateLearnData(Integer.parseInt(data.getUserChoice()), data.getIsRight(),
             data.getUserSeq(), data.getQuizSeq());
     }
 
+    @PutMapping("/mypage/weak/answer")
+    @ResponseBody
+    public void updateWeakQuiz(@RequestBody LearnRecordDTO data) {
+        recodeservice.updateLearnData(Integer.parseInt(data.getUserChoice()), data.getIsRight(),
+            data.getUserSeq(), data.getQuizSeq());
+    }
 
-    // 많이 틀린 문제 페이지
+    // 많이 틀린 문제
     @GetMapping("/mypage/weak/{user_seq}/list")
+    @ResponseBody
     public ModelMap getWeakQuiz(Criteria cri,
         @PathVariable("user_seq") int userSeq,
         @RequestParam(defaultValue = "5") String perPageNum) {
@@ -169,14 +183,16 @@ public class MyPageController {
         cri.setPerPageNum(Integer.parseInt(perPageNum));
         paging.setCri(cri);
 
-//        int totalBoardCnt =  quizservice.getWeakByUser();
-//        int maxPage = (int) ((double) totalBoardCnt / cri.getPerPageNum() + 0.9);
-//        List<LearnRecordQuizDTO> list = service.getWrongAnswerByUser(userSeq, cri.getPageStart(),
-//            cri.getPerPageNum());
-//        paging.setTotalCount(totalBoardCnt);
-//        m.addAttribute("maxPage", maxPage);
-//        m.addAttribute("paging", paging);
-//        m.addAttribute("quizList", list);
+        UserDTO user = userService.getUserByUserSeq(userSeq);
+        List<QuizDTO> weakQuizList = quizservice.getWeakQuizListByUser(user.getWeakCategorySeq(), cri.getPageStart(),
+            cri.getPerPageNum());
+        int totalBoardCnt =  weakQuizList.size();
+        int maxPage = (int) ((double) totalBoardCnt / cri.getPerPageNum() + 0.9);
+
+        paging.setTotalCount(totalBoardCnt);
+        m.addAttribute("maxPage", maxPage);
+        m.addAttribute("paging", paging);
+        m.addAttribute("list", weakQuizList);
 
         return m;
     }

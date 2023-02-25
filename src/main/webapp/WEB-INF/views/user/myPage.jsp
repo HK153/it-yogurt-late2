@@ -81,6 +81,7 @@ label {
 			<div id="myBtnDiv">
 				<input type="submit" value="정보수정하기" class="myBtn">
 				<input type="button" value="오답노트" class="myBtn"  onclick="window.location.href='/mypage/wrong/${sessionScope.user_seq}'">
+				<input type="button" value="나의 약점 보러가기" class="myBtn"  onclick="window.location.href='/mypage/weak/${sessionScope.user_seq}'">
 			</div>
 			</form>
 		</div>

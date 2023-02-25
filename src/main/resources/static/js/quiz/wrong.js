@@ -25,6 +25,7 @@ $(document).ready(function () {
     go_page(currentPage);
   })
 })
+let quizType = window.location.pathname.split('/')[2];
   function go_page(pageNum) {
     let limit = $(".filter .quiz-filter").val();
     window.ajax.request(
@@ -33,16 +34,15 @@ $(document).ready(function () {
   }
 
   function clickAnswerButton(event, index, answer_data) {
-    // let index = $(event.currentTarget).attr("id").split('-')[1];
-    // let userChoice = $(`input[name=radio${index}]:checked`).val();
-    // let answer = list[index].answer;
-    // let isRight = userChoice == answer ? 1 :0;
-    // let str = isRight ? "정답입니다" : "틀렸습니다";
 
-    // let index = $(event.currentTarget).attr("id").split('-')[1];
     answer_data = answer_data;
     let userChoice = $(`input[name=radio${index}]:checked`).val();
-    // let answer = list[index].answer;
+
+    if(!userChoice){
+      alert("정답을 입력해주세요.");
+      return;
+    }
+
     let isRight = userChoice == answer_data.answer ? 1 :0;
     let str = isRight ? "정답입니다" : "틀렸습니다";
 
@@ -57,7 +57,8 @@ $(document).ready(function () {
     `)
     }
 
-    window.ajax.request('/mypage/wrong/answer/1',{
+    // 수정 필요
+    window.ajax.request(`/mypage/${quizType}/answer`,{
       "type" : "PUT",
       "data" : {
         "userChoice": userChoice,
@@ -69,20 +70,28 @@ $(document).ready(function () {
   }
 
   let success = (result) => {
-    let list = result.quizList;
-    let answer = {};
-    let detail = {};
+    let list = result.list;
+
+    let title = quizType == "wrong"? "오답노트" : "많이 틀린 카테고리 문제"
+    $("#main").text(title);
+
+    if(list.length == 0)
+    {
+      $("#quizForm").append(`<div id="listEmpty">틀린 문제가 없습니다</div>`)
+    }
+
     $("#quizForm").html("");
     for (let i = 0; i < list.length; i++) {
-      // answer[i] = list[i].answer;
-      // detail[i] = list[i].detail;
+
+      let badge = quizType == "wrong" ? `선택한 답: ${list[i].userChoice}` : "";
+
       $("#quizForm").append(`
             <input type="hidden" value="${result.userSeq}" name="userSeq">
             <table id="${i}">
               <tr id="quizListTbl">
                  <td id="num"><br><br><br>
-                 <div class="badge bg-secondary text-decoration-none link-light">선택한 답: ${list[i].userChoice}</div>  
-                 <br><br> Q. ${list[i].quizSeq}번<br>
+                 <div  class="badge bg-secondary text-decoration-none link-light">${badge}</div><br>  
+                  Q. ${list[i].quizSeq}번<br>
                       <br>${list[i].question}<br><br>       
                  </td>
               </tr>
