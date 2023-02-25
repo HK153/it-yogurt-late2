@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.starters.ityogurt.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,10 +64,10 @@ public class UserServiceImpl implements UserService {
 		  return dao.getUserByUserEmail(email);
 	  }
     
-//    @Override
-//    public int setIsPassByUserSeq(int userSeq) {
-//        return dao.setIsPassByUserSeq(userSeq);
-//    }
+    @Override
+    public int setIsPassByUserSeq(int userSeq) {
+        return dao.setIsPassByUserSeq(userSeq);
+    }
 
     @Override
     public int setLastLoginDateByUserSeq(int userSeq) {
@@ -95,36 +96,16 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Override
-    public int setIsPassByUserSeq(int userSeq) {
-        List<String> userDto = new ArrayList<>();
-        userDto.add(getUserByUserSeq(userSeq).getEmail());
+	@Override
+	public UserDTO getUserInfo(int userSeq) {
+		return dao.getUserInfo(userSeq);
+	}
 
-        String title = "It-Yogurt 인증 메일입니다.";
-        String content = "<div style=\"text-align : center;\">\n" +
-            "  <h1>IT-Yogurt!</h1>\n" +
-            "  <br><br><hr><br><br>\n" +
-            "  <h2>It-Yogurt 인증 메일입니다.</h2>\n" +
-            "  <br>\n" +
-            "	</div>\n" +
-            "	<div style=\"text-align: center;\"><br>\n" +
-            "  <a href='http://localhost:8818/user/verify/31'>\n" +
-            "    <button class=\"btn\" style=\"width: 200px; background-color: #86b7fe; padding: 15px 30px;\n"
-            +
-            "                 border-radius: 5px; color:white; font-size: 18px; font-weight: bold; cursor: pointer;\" >이메일 인증하기</button>\n"
-            +
-            "  </a><br><br>\n" +
-            "</div>\n" +
-            "<div class=\"footer\" style=\"text-align : center; background-color: #F9F2ED\">\n" +
-            "  <div class=\"info\" ><br>\n" +
-            "    ItYogurt / 대표: 김민지<br>\n" +
-            "    서울특별시 용산구 용산동2가 1 - 34<br><br><br><br>\n" +
-            "  </div>\n" +
-            "</div>";
 
-        emailService.send(title, content, userDto);
-
-        return dao.setIsPassByUserSeq(userSeq);
-    }
+	@Override
+	public void updateUserInfo(Map<Object, Object> map) {
+		dao.updateUserInfo(map);
+		
+	}
 
 }

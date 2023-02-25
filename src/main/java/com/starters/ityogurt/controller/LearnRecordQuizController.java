@@ -13,6 +13,7 @@ import java.util.List;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,69 +27,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-@RestController
+@Controller
 public class LearnRecordQuizController {
 
     @Autowired
-    LearnRecordQuizDTO dao;
+    LearnRecordQuizDTO dto;
 
-    @Autowired
-    @Qualifier("recodequizservice")
-    LearnRecordQuizService service;
-
-    @Autowired
-    LearnRecordService recodeservice;
-
-    @GetMapping("/quiz/wrong/{user_seq}")
-    public ModelAndView setViewWrong(Criteria cri, @PathVariable("user_seq") int userSeq)
-        throws Exception {
-        ModelAndView mv = new ModelAndView();
-
-        Paging paging = new Paging();
-        cri.setPerPageNum(5);
-        paging.setCri(cri);
-
-        int totalBoardCnt = service.getWrongAnswerCountByUser(userSeq);
-        int maxPage = (int) ((double) totalBoardCnt / cri.getPerPageNum() + 0.9);
-        List<LearnRecordQuizDTO> list = service.getWrongAnswerByUser(userSeq, cri.getPage(),
-            cri.getPerPageNum());
-        paging.setTotalCount(totalBoardCnt);
-        mv.addObject("maxpage", maxPage);
-        mv.addObject("paging", paging);
-        mv.addObject("quizList", list);
-
-        mv.setViewName("quiz/wrong");
-        return mv;
-    }
-
-    // 틀린 문제 개수 가져오기. limit 기본값 : 5
-    @GetMapping("/quiz/wrong/{user_seq}/list")
-    @ResponseBody
-    public ModelMap getWrongQuiz(Criteria cri,
-        @PathVariable("user_seq") int userSeq, @RequestParam(defaultValue = "5") String perPageNum) {
-        ModelMap m = new ModelMap();
-
-        Paging paging = new Paging();
-        cri.setPerPageNum(Integer.parseInt(perPageNum));
-        paging.setCri(cri);
-
-        int totalBoardCnt = service.getWrongAnswerCountByUser(userSeq);
-        int maxPage = (int) ((double) totalBoardCnt / cri.getPerPageNum() + 0.9);
-        List<LearnRecordQuizDTO> list = service.getWrongAnswerByUser(userSeq, cri.getPageStart(),
-            cri.getPerPageNum());
-        paging.setTotalCount(totalBoardCnt);
-
-        m.addAttribute("maxpage", maxPage);
-        m.addAttribute("paging", paging);
-        m.addAttribute("quizList", list);
-
-        return m;
-    }
-
-    //오답문제 정보 갱신 시
-    @PutMapping("/quiz/wrong/answer/1")
-    @ResponseBody
-    public void updateWrongQuiz(@RequestBody LearnRecordDTO data) {
-        recodeservice.updateLearnData(Integer.parseInt(data.getUserChoice()),data.getIsRight(),data.getUserSeq(), data.getQuizSeq());
-    }
 }

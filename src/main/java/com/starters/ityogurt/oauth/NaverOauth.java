@@ -77,7 +77,6 @@ public class NaverOauth implements SocialOauth {
 
             // 결과 코드가 200이라면 성공
             int responseCode = conn.getResponseCode();
-//			System.out.println("responseCode : " + responseCode);
 
             // 요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -87,7 +86,6 @@ public class NaverOauth implements SocialOauth {
             while ((line = br.readLine()) != null) {
                 result += line;
             }
-            //System.out.println("response body : " + result);
 
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result);
@@ -110,6 +108,7 @@ public class NaverOauth implements SocialOauth {
         String reqURL = "https://openapi.naver.com/v1/nid/me";
         String id = "";
         String email = "";
+
         // access_token을 이용하여 사용자 정보 조회
         try {
             URL url = new URL(reqURL);
@@ -122,7 +121,6 @@ public class NaverOauth implements SocialOauth {
 
             // 결과 코드가 200이라면 성공
             int responseCode = conn.getResponseCode();
-//			System.out.println("responseCode : " + responseCode);
 
             // 요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -132,14 +130,13 @@ public class NaverOauth implements SocialOauth {
             while ((line = br.readLine()) != null) {
                 result += line;
             }
-            //System.out.println("response body : " + result);
+
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result);
             id = element.getAsJsonObject().get("response").getAsJsonObject().get("id").toString();
             email = element.getAsJsonObject().get("response").getAsJsonObject().get("email")
                 .toString();
 
-            // System.out.println("id : " + id);
             System.out.println("email : " + email);
 
             br.close();

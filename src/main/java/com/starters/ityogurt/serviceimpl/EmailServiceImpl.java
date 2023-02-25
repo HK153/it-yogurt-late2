@@ -1,5 +1,6 @@
 package com.starters.ityogurt.serviceimpl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Future;
@@ -8,6 +9,7 @@ import com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceAsync;
 import com.starters.ityogurt.dao.EmailDAO;
 import com.starters.ityogurt.dto.EmailDTO;
 import com.starters.ityogurt.dto.KnowledgeDTO;
+import com.starters.ityogurt.dto.UserDTO;
 import com.starters.ityogurt.service.CategoryService;
 import com.starters.ityogurt.service.EmailService;
 import lombok.AllArgsConstructor;
@@ -76,5 +78,36 @@ public class EmailServiceImpl implements EmailService {
         return dao.getSendDetail(count);
     }
 
+
+    @Override
+    public void sendVerificationEmail(UserDTO userDTO) {
+        List<String> userDto = new ArrayList<>();
+        userDto.add(userDTO.getEmail());
+
+        String title = "It-Yogurt 인증 메일입니다.";
+        String content = "<div style=\"text-align : center;\">\n" +
+                "  <h1>IT-Yogurt!</h1>\n" +
+                "  <br><br><hr><br><br>\n" +
+                "  <h2>It-Yogurt 인증 메일입니다.</h2>\n" +
+                "  <br>\n" +
+                "	</div>\n" +
+                "	<div style=\"text-align: center;\"><br>\n" +
+                "  <a href='http://localhost:8818/user/verify/"+ userDTO.getUserSeq() +"'>\n" +
+                "    <button class=\"btn\" style=\"width: 200px; background-color: #86b7fe; padding: 15px 30px;\n"
+                +
+                "                 border-radius: 5px; color:white; font-size: 18px; font-weight: bold; cursor: pointer;\" >이메일 인증하기</button>\n"
+                +
+                "  </a><br><br>\n" +
+                "</div>\n" +
+                "<div class=\"footer\" style=\"text-align : center; background-color: #F9F2ED\">\n" +
+                "  <div class=\"info\" ><br>\n" +
+                "    ItYogurt / 대표: 김민지<br>\n" +
+                "    서울특별시 용산구 용산동2가 1 - 34<br><br><br><br>\n" +
+                "  </div>\n" +
+                "</div>";
+
+        send(title, content, userDto);
+
+    }
 
 }

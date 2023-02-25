@@ -27,6 +27,10 @@ public interface KnowledgeService {
 
 	int getCategoryCnt(String category);
 
+	String getKnowledgeTitle(int knowSeq);
+
+	int getCategorySeq(int knowSeq);
+
 
 
 

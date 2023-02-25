@@ -32,8 +32,8 @@
     <c:set var="isSNS" value="<%=isSNS%>"></c:set>
 
     <div class="content">
-        <form id="signup_form" class="form" type="POST" href="/user/1">
-            <div class="form-input-email">
+        <form id="signup_form" class="form" type="POST" href="/user/1" >
+            <div class="form-input-email" style="margin-top:200px;">
                 <label for="email">이메일</label>
                 <input type="text" name="email" id="email" placeholder="이메일을 입력해주세요."
                        value=${email}>

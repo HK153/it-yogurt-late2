@@ -1,11 +1,14 @@
 package com.starters.ityogurt.dao;
 
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
 import com.starters.ityogurt.dto.UserDTO;
 import com.starters.ityogurt.util.Criteria;
-
-import java.util.List;
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
 
 @Mapper
 @Repository
@@ -30,6 +33,10 @@ public interface UserDAO {
 	int setLastLoginDateByUserSeq(int userSeq);
 
 	UserDTO getUserByUserSeq(int userSeq);
+
+	UserDTO getUserInfo(int userSeq);
+
+	void updateUserInfo(Map<Object, Object> map);
 
 }
 

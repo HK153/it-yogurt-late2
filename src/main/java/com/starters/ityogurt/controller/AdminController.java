@@ -4,14 +4,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -143,11 +149,81 @@ public class AdminController {
 
 	 //컨텐츠 업로드
    @PostMapping("/contents")
-	  	public ModelAndView UploadContents(QuizDTO quizDto, KnowledgeDTO knowledgeDto) {
-		 	ModelAndView mv = new ModelAndView();
-		 	knowledgeService.uploadKnowledge(knowledgeDto);
-		 	quizService.uploadQuiz(quizDto);
-		 	mv.setViewName("redirect:page");
-		 	return mv;
-	 }
-}
+   @ResponseBody
+	  	public void UploadContents(@RequestBody String data) {
+	   		
+	   		JSONParser jsonParser = new JSONParser();
+			JSONArray insertParam = null;
+			try {
+				insertParam = (JSONArray) jsonParser.parse(data);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			JSONObject insertData = new JSONObject();
+			
+			KnowledgeDTO knowledgeDto = new KnowledgeDTO();
+			QuizDTO quizDto = new QuizDTO();
+			String [] knowledgeData = new String [4]; 
+			String [] quizData = new String[28]; 
+			for(int i=0; i<4; i++){
+				insertData = (JSONObject) insertParam.get(i);
+				String value = (String) insertData.get("value");
+				knowledgeData[i]= value;
+				
+			}
+			knowledgeDto.setCategorySeq(Integer.parseInt(knowledgeData[0]));
+			knowledgeDto.setUserSeq(Integer.parseInt(knowledgeData[1]));
+			knowledgeDto.setTitle(knowledgeData[2]);
+			knowledgeDto.setContent(knowledgeData[3]);
+			knowledgeService.uploadKnowledge(knowledgeDto);
+
+			
+			for(int i=4; i<12; i++){
+				insertData = (JSONObject) insertParam.get(i);
+				String value = (String) insertData.get("value");
+				quizData[i]= value;
+				
+			}
+			quizDto.setQuestion(quizData[4]);
+			quizDto.setChoice1(quizData[5]);
+			quizDto.setChoice2(quizData[6]);
+			quizDto.setChoice3(quizData[7]);
+			quizDto.setChoice4(quizData[8]);
+			quizDto.setAnswer(Integer.parseInt(quizData[9]));
+			quizDto.setCommentary(quizData[10]);
+			quizDto.setKnowSeq(Integer.parseInt(quizData[11]));
+			quizService.uploadQuiz(quizDto);
+			for(int i=12; i<20; i++){
+				insertData = (JSONObject) insertParam.get(i);
+				String value = (String) insertData.get("value");
+				quizData[i]= value;
+				
+			}
+			quizDto.setQuestion(quizData[12]);
+			quizDto.setChoice1(quizData[13]);
+			quizDto.setChoice2(quizData[14]);
+			quizDto.setChoice3(quizData[15]);
+			quizDto.setChoice4(quizData[16]);
+			quizDto.setAnswer(Integer.parseInt(quizData[17]));
+			quizDto.setCommentary(quizData[18]);
+			quizDto.setKnowSeq(Integer.parseInt(quizData[19]));
+			quizService.uploadQuiz(quizDto);
+			for(int i=20; i<insertParam.size(); i++){
+				insertData = (JSONObject) insertParam.get(i);
+				String value = (String) insertData.get("value");
+				quizData[i]= value;
+				
+			}
+			quizDto.setQuestion(quizData[20]);
+			quizDto.setChoice1(quizData[21]);
+			quizDto.setChoice2(quizData[22]);
+			quizDto.setChoice3(quizData[23]);
+			quizDto.setChoice4(quizData[24]);
+			quizDto.setAnswer(Integer.parseInt(quizData[25]));
+			quizDto.setCommentary(quizData[26]);
+			quizDto.setKnowSeq(Integer.parseInt(quizData[27]));
+			quizService.uploadQuiz(quizDto);
+			
+   		}
+	 
+	}

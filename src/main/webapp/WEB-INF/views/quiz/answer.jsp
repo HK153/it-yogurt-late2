@@ -22,6 +22,10 @@
 			<div>
 				<table id="quizTbl">
 					<c:set var="length" value="${fn:length(quizList) }" />
+					<div style="margin-top: 400px;">
+						<b>정답수 : ${userAnswerCnt}/3</b><br>
+					</div>
+					<div>
 					<c:forEach items="${quizList }" var="list">
 					
 						<!-- 퀴즈번호 기재하기 위한 변수 선언 -->
@@ -32,7 +36,6 @@
 								문제: ${list.question}<br> <br></td>
 							</tr>
 							
-							
 								<!-- 보기화면 -->
 								<div id="${i}">
 									<tr><td> 1. ${list.choice1}</td></tr>
@@ -42,10 +45,9 @@
 								</div>
 								
 								<!-- 정답 및 해설 -->
-								<c:choose>
-									<!-- 로그인 -->
-<%-- 									<c:when test="${userSeq ne 0}"> --%>
-									<tr>
+									<%-- 로그인sss --%>
+									<c:if test="${userSeq ne 0}">
+									<tr style="margin-top:200px;">
 										<td>
 											<div class="hideDiv">
 											<br><b>정답: ${list.answer }</b><br>
@@ -70,37 +72,39 @@
 												</div>
 											</td>
 									</tr>
-<%-- 									</c:when> --%>
-									<!-- 비로그인 -->
-<%-- 									<c:otherwise> --%>
-<!-- 										<tr> -->
-<!-- 										<td> -->
-<!-- 											<div class="hideDiv"> -->
-<%-- 											<br><b>정답: ${list.answer }</b><br> --%>
-<%-- 											<c:forEach items="${learnList}" var="learn" begin="${i-1}" end="${i-1}"> --%>
-													
+									</c:if>
+									<%-- 비로그인 --%>
+									
+									<c:if test="${userSeq eq 0 }">
+										<tr>
+										<td>
+											<div class="hideDiv">
+											<br><b>정답: ${list.answer }</b><br>
+											<c:forEach items="${isRight}" var="isRight" begin="${i-1}" end="${i-1}">
+													<c:forEach items="${userChoice}" var="userChoice" begin="${i-1}" end="${i-1}">
 													
 <!-- 													isRight가 1이면 정답 0이면 오답 -->
-<%-- 													<c:choose> --%>
-<%-- 														<c:when test="${learn.isRight == 1}"> --%>
-<%-- 															<br>내가 입력한 답: <b style="color:blue;">${learn.userChoice}<br> --%>
-<!-- 															<br>정답입니다.</b><br> -->
-<%-- 														</c:when> --%>
-<%-- 														<c:otherwise> --%>
-<%-- 															<br>내가 입력한 답: <b style="color:red;">${learn.userChoice}<br> --%>
-<!-- 															<br>틀렸습니다.</b><br> -->
-<%-- 														</c:otherwise> --%>
-<%-- 													</c:choose> --%>
-<%-- 												</c:forEach> --%>
+													<c:choose>
+														<c:when test="${isRight == 1}">
+															<br>내가 입력한 답: <b style="color:blue;">${userChoice}<br>
+															<br>정답입니다.</b><br>
+														</c:when>
+														<c:otherwise>
+															<br>내가 입력한 답: <b style="color:red;">${userChoice}<br>
+															<br>틀렸습니다.</b><br>
+														</c:otherwise>
+													</c:choose>
+													</c:forEach>
+												</c:forEach>
 												
-<%-- 													${list.commentary } --%>
+													${list.commentary }
 												
-<!-- 												</div> -->
-<!-- 											</td> -->
-<!-- 									</tr> -->
-<%-- 									</c:otherwise> --%>
-<%-- 								</c:choose> --%>
+												</div>
+											</td>
+									</tr>
+									</c:if>
 								</c:forEach>
+								</div>
 							</table>
 					</div><!-- 전체 div -->
 		</div><!-- content -->

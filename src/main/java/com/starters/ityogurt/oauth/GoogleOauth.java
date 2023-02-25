@@ -71,7 +71,6 @@ public class GoogleOauth implements SocialOauth {
 
         if (responseEntity.getStatusCode() == HttpStatus.OK) {
 
-            //System.out.println(responseEntity.getBody());
             JSONParser parser = new JSONParser();
 
             try {
@@ -137,7 +136,6 @@ public class GoogleOauth implements SocialOauth {
     public String createUser(String token) {
         RestTemplate restTemplate = new RestTemplate();
         String email = "";
-        //System.out.println(token);
         String requestUrl = UriComponentsBuilder.fromHttpUrl(
                 "https://oauth2.googleapis.com/tokeninfo")
             .queryParam("id_token", token).encode().toUriString();

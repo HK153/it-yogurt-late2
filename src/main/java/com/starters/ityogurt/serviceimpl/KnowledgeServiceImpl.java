@@ -13,13 +13,12 @@ import com.starters.ityogurt.dto.QuizDTO;
 import com.starters.ityogurt.service.KnowledgeService;
 import com.starters.ityogurt.util.Criteria;
 
-
 @Service("knowledgeservice")
-public class KnowledgeServiceImpl implements KnowledgeService{
+public class KnowledgeServiceImpl implements KnowledgeService {
 
 	@Autowired
-    KnowledgeDAO dao;
-	
+	KnowledgeDAO dao;
+
 	@Override
 	public List<KnowledgeDTO> getList(Map<Object, Object> map) {
 		return dao.getList(map);
@@ -31,13 +30,15 @@ public class KnowledgeServiceImpl implements KnowledgeService{
 	}
 
 	@Override
-	public String getContents(int knowSeq) { return dao.getContents(knowSeq); }
+	public String getContents(int knowSeq) {
+		return dao.getContents(knowSeq);
+	}
 
 	@Override
 	public String getTitle(int knowSeq) {
 		return dao.getTitle(knowSeq);
 	}
-	
+
 	@Override
 	public void uploadKnowledge(KnowledgeDTO dto) {
 		dao.uploadKnowledge(dto);
@@ -53,16 +54,24 @@ public class KnowledgeServiceImpl implements KnowledgeService{
 		return dao.getSearchList(keyword);
 	}
 
-  @Override
+	@Override
 	public KnowledgeDTO getKnowledgeByCategorySeq(int categorySeq) {
 		return dao.getKnowledgeByCategorySeq(categorySeq);
 	}
 
-@Override
-public int getCategoryCnt(String category) {
-	return dao.getCategoryCnt(category);
-}
+	@Override
+	public int getCategoryCnt(String category) {
+		return dao.getCategoryCnt(category);
+	}
 
+	@Override
+	public String getKnowledgeTitle(int knowSeq) {
+		return dao.getKnowledgeTitle(knowSeq);
+	}
 
+	@Override
+	public int getCategorySeq(int knowSeq) {
+		return dao.getCategorySeq(knowSeq);
+	}
 
 }

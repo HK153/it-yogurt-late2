@@ -4,6 +4,7 @@ import com.starters.ityogurt.dto.CategoryDTO;
 import com.starters.ityogurt.dto.UserDTO;
 import com.starters.ityogurt.error.ApiException;
 import com.starters.ityogurt.service.CategoryService;
+import com.starters.ityogurt.service.EmailService;
 import com.starters.ityogurt.service.UserService;
 import com.starters.ityogurt.util.DateUtil;
 import com.starters.ityogurt.util.Encrypt;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 public class UserRestController {
@@ -30,6 +32,9 @@ public class UserRestController {
     @Autowired
     @Qualifier("categoryservice")
     CategoryService categoryService;
+
+    @Autowired
+    EmailService emailService;
 
     // 회원가입
     @PostMapping("/user/1")
@@ -50,6 +55,10 @@ public class UserRestController {
 
         userDTO.setCategorySeq(selectedCategory.getCategorySeq());
         int result = userService.insertUser(userDTO);
+
+        UserDTO newUser =userService.getUserByUserEmail(userDTO.getEmail());
+        emailService.sendVerificationEmail(newUser);
+
         return true;
     }
 
@@ -75,6 +84,10 @@ public class UserRestController {
 
         userService.AfterLoginProcess(result,request.getSession());
 
+        int weakCategory = categoryService.findWeakCategoryByCategorySeq(result.getUserSeq());
+        result.setWeakCategorySeq(weakCategory);
+        int weakSucceess = userService.setWeakCategoryByUser(result);
+
         if(!isStringEmpty(knowSeq))
         {
            return "/quiz/"+knowSeq;
@@ -85,9 +98,12 @@ public class UserRestController {
     
     // 로그아웃 임시(작동은 하나 오류남)
     @GetMapping("/user/o")
-    public void logout(HttpServletRequest request) {
+    public ModelAndView logout(HttpServletRequest request) {
     	HttpSession session = request.getSession();
+    	ModelAndView mv = new ModelAndView();
     	session.invalidate();
+    	mv.setViewName("/");
+    	return mv;
     }
     
 

@@ -23,7 +23,7 @@
 <div class="container">
     <div class="content">
         <form id="login_form">
-            <div class="login" type="POST" href="/user">
+            <div class="login" type="POST" href="/user" style="margin-top:200px;">
                 <label for="email">이메일</label>
                 <input type="text" name="email" id="email" placeholder="이메일을 입력해주세요.">
                 <br>

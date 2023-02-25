@@ -1,26 +1,23 @@
 package com.starters.ityogurt.controller;
 
-import com.starters.ityogurt.dto.CategoryDTO;
-import com.starters.ityogurt.dto.UserDTO;
-import com.starters.ityogurt.error.ApiException;
-import com.starters.ityogurt.service.UserService;
-import com.starters.ityogurt.util.Common;
-import com.starters.ityogurt.util.Encrypt;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import org.apache.ibatis.jdbc.Null;
-import org.junit.runner.Request;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.starters.ityogurt.dto.UserDTO;
+import com.starters.ityogurt.error.ApiException;
+import com.starters.ityogurt.service.UserService;
+
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class UserController {
@@ -75,13 +72,5 @@ public class UserController {
         mv.addObject("result", str);
         mv.setViewName("user/verify");
         return mv;
-    }
-    
-    @GetMapping("/myPage/{user_seq}")
-    public String myPage(@PathVariable("user_seq") String user_seq) {
-//    	ModelAndView mv = new ModelAndView();
-//    	System.out.println(user_seq);
-//    	mv.setViewName("user/myPage");
-        return "user/myPage";
     }
 }

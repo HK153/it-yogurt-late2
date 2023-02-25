@@ -56,4 +56,9 @@
 	order by comment_seq desc
   </select>
 
+ <delete id="deleteCommentByCommentSeq" parameterType="int">
+	delete
+	from comment
+	where comment_seq = #{commentSeq}
+ </delete>
 </mapper>
