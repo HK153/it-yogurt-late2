@@ -21,11 +21,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.starters.ityogurt.dto.CategoryDTO;
 import com.starters.ityogurt.dto.KnowledgeDTO;
 import com.starters.ityogurt.dto.QuizDTO;
 import com.starters.ityogurt.dto.UserDTO;
 import com.starters.ityogurt.service.BlacklistService;
 import com.starters.ityogurt.service.BoardService;
+import com.starters.ityogurt.service.CategoryService;
 import com.starters.ityogurt.service.CommentService;
 import com.starters.ityogurt.service.KnowledgeService;
 import com.starters.ityogurt.service.LearnRecordService;
@@ -67,6 +69,9 @@ public class AdminController {
 	@Qualifier("learnrecordservice")
 	LearnRecordService learnRecordService;
 	
+	@Autowired
+    @Qualifier("categoryservice")
+    CategoryService categoryService;
 	
 
 	//관리자 마이페이지
@@ -142,7 +147,9 @@ public class AdminController {
 	    public ModelAndView adminContents() {
 		 	ModelAndView mv = new ModelAndView();
 		 	int knowSeq = knowledgeService.getTotalCnt() + 1;
+		 	int categorySeq = categoryService.countAllCategory() +1;
 		 	mv.addObject("knowSeq", knowSeq);
+		 	mv.addObject("categorySeq", categorySeq);
 		 	mv.setViewName("admin/adminContents");
 	        return mv; 
 	    }
@@ -161,68 +168,92 @@ public class AdminController {
 			}
 			JSONObject insertData = new JSONObject();
 			
+			CategoryDTO categoryDto = new CategoryDTO();
 			KnowledgeDTO knowledgeDto = new KnowledgeDTO();
 			QuizDTO quizDto = new QuizDTO();
-			String [] knowledgeData = new String [4]; 
-			String [] quizData = new String[28]; 
+			
+			String [] categoryData = new String [4]; 
+			String [] knowledgeData = new String [8]; 
+			String [] quizData = new String[32]; 
+			
 			for(int i=0; i<4; i++){
+				insertData = (JSONObject) insertParam.get(i);
+				String value = (String) insertData.get("value");
+				categoryData[i]= value;
+				
+			}
+			categoryDto.setMain(categoryData[0]);
+			categoryDto.setMiddle(categoryData[1]);
+			categoryDto.setSub(categoryData[2]);
+			categoryDto.setDetail(categoryData[3]);
+			categoryService.insertCategory(categoryDto);
+			
+			for(int i=4; i<8; i++){
 				insertData = (JSONObject) insertParam.get(i);
 				String value = (String) insertData.get("value");
 				knowledgeData[i]= value;
 				
 			}
-			knowledgeDto.setCategorySeq(Integer.parseInt(knowledgeData[0]));
-			knowledgeDto.setUserSeq(Integer.parseInt(knowledgeData[1]));
-			knowledgeDto.setTitle(knowledgeData[2]);
-			knowledgeDto.setContent(knowledgeData[3]);
+			knowledgeDto.setCategorySeq(Integer.parseInt(knowledgeData[4]));
+			knowledgeDto.setUserSeq(Integer.parseInt(knowledgeData[5]));
+			knowledgeDto.setTitle(knowledgeData[6]);
+			knowledgeDto.setContent(knowledgeData[7]);
 			knowledgeService.uploadKnowledge(knowledgeDto);
 
 			
-			for(int i=4; i<12; i++){
+			for(int i=8; i<16; i++){
 				insertData = (JSONObject) insertParam.get(i);
 				String value = (String) insertData.get("value");
 				quizData[i]= value;
 				
 			}
-			quizDto.setQuestion(quizData[4]);
-			quizDto.setChoice1(quizData[5]);
-			quizDto.setChoice2(quizData[6]);
-			quizDto.setChoice3(quizData[7]);
-			quizDto.setChoice4(quizData[8]);
-			quizDto.setAnswer(Integer.parseInt(quizData[9]));
-			quizDto.setCommentary(quizData[10]);
-			quizDto.setKnowSeq(Integer.parseInt(quizData[11]));
+			quizDto.setQuestion(quizData[8]);
+			quizDto.setChoice1(quizData[9]);
+			quizDto.setChoice2(quizData[10]);
+			quizDto.setChoice3(quizData[11]);
+			quizDto.setChoice4(quizData[12]);
+			quizDto.setAnswer(Integer.parseInt(quizData[13]));
+			quizDto.setCommentary(quizData[14]);
+			quizDto.setKnowSeq(Integer.parseInt(quizData[15]));
 			quizService.uploadQuiz(quizDto);
-			for(int i=12; i<20; i++){
+			for(int i=16; i<24; i++){
 				insertData = (JSONObject) insertParam.get(i);
 				String value = (String) insertData.get("value");
 				quizData[i]= value;
 				
 			}
-			quizDto.setQuestion(quizData[12]);
-			quizDto.setChoice1(quizData[13]);
-			quizDto.setChoice2(quizData[14]);
-			quizDto.setChoice3(quizData[15]);
-			quizDto.setChoice4(quizData[16]);
-			quizDto.setAnswer(Integer.parseInt(quizData[17]));
-			quizDto.setCommentary(quizData[18]);
-			quizDto.setKnowSeq(Integer.parseInt(quizData[19]));
+			quizDto.setQuestion(quizData[16]);
+			quizDto.setChoice1(quizData[17]);
+			quizDto.setChoice2(quizData[18]);
+			quizDto.setChoice3(quizData[19]);
+			quizDto.setChoice4(quizData[20]);
+			quizDto.setAnswer(Integer.parseInt(quizData[21]));
+			quizDto.setCommentary(quizData[22]);
+			quizDto.setKnowSeq(Integer.parseInt(quizData[23]));
 			quizService.uploadQuiz(quizDto);
-			for(int i=20; i<insertParam.size(); i++){
+			for(int i=24; i<insertParam.size(); i++){
 				insertData = (JSONObject) insertParam.get(i);
 				String value = (String) insertData.get("value");
 				quizData[i]= value;
 				
 			}
-			quizDto.setQuestion(quizData[20]);
-			quizDto.setChoice1(quizData[21]);
-			quizDto.setChoice2(quizData[22]);
-			quizDto.setChoice3(quizData[23]);
-			quizDto.setChoice4(quizData[24]);
-			quizDto.setAnswer(Integer.parseInt(quizData[25]));
-			quizDto.setCommentary(quizData[26]);
-			quizDto.setKnowSeq(Integer.parseInt(quizData[27]));
+			quizDto.setQuestion(quizData[24]);
+			quizDto.setChoice1(quizData[25]);
+			quizDto.setChoice2(quizData[26]);
+			quizDto.setChoice3(quizData[27]);
+			quizDto.setChoice4(quizData[28]);
+			quizDto.setAnswer(Integer.parseInt(quizData[29]));
+			quizDto.setCommentary(quizData[30]);
+			quizDto.setKnowSeq(Integer.parseInt(quizData[31]));
 			quizService.uploadQuiz(quizDto);
+			
+			CategoryDTO cateDto = categoryService.getCategoryByAllType(categoryDto);
+			
+			// 새로운 카테고리 추가시 
+			if ( cateDto==null) {
+				categoryDto.setDetail(null);
+				categoryService.insertCategory(categoryDto);
+			}
 			
    		}
 	 

@@ -108,4 +108,9 @@ public class UserServiceImpl implements UserService {
 		
 	}
 
+	@Override
+	public void updateUserDeclaration(int user_seq) {
+		dao.updateUserDeclaration(user_seq);
+	}
+
 }

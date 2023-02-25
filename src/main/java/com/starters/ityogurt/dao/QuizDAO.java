@@ -16,6 +16,4 @@ public interface QuizDAO {
 	void uploadQuiz(QuizDTO dto);
 
 	int getAnswer(int quizSeq);
-
-	List<QuizDTO> getWeakQuizListByUser(int weakCategorySeq, int start, int end);
 }

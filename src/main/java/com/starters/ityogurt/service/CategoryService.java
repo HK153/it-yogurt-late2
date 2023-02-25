@@ -7,7 +7,9 @@ public interface CategoryService {
 
     List<CategoryDTO> getAllCategoryList();
     CategoryDTO getCategoryByCategorySeq(String categorySeq);
+    
     int countAllSub();
+    int countAllCategory();
 
     List<CategoryDTO> getCategoryByType(String type, String typeValue);
     CategoryDTO getCategoryByAllType(CategoryDTO categoryDTO);

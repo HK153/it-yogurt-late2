@@ -19,6 +19,12 @@
 		FROM category
 		WHERE detail IS NULL
 	</select>
+	
+	<!-- 전체 카테고리 개수 -->
+	<select id="countAllCategory" resultType="int">
+		SELECT count(*)
+		FROM category
+	</select>
 
 
 <!-- 카테고리 각 type으로 카테고리 목록 찾기,	type = main, middle, sub, detail -->
