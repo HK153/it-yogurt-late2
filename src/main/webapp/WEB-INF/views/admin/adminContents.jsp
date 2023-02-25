@@ -9,8 +9,8 @@
  	<script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
     <link href="/css/header.css" rel="stylesheet">
     <link href="/css/footer.css" rel="stylesheet">
+    <!-- <link href="/css/style.css" rel="stylesheet"> -->
     <link href="/css/container.css" rel="stylesheet">
-    <link href="/css/admin.css" rel="stylesheet">
     <link href="/css/user/signup.css" rel="stylesheet">
    <!--  <script src="/js/user/signup.js"></script> -->
     <script src="/js/util/ajax.js"></script>
@@ -32,12 +32,12 @@
 	
 <!-- 관리자 페이지 이동 버튼  -->
 <div class="form" id="content-form">
-	<button id="" onclick="location.href='/admin/user'">회원관리</button>
-	<button onclick="location.href='/admin/contents'">컨텐츠 관리</button>
+	<button class="btn btn-primary px-5 py-2" onclick="location.href='/admin/user'"> 회원관리 </button>
+	<button class="btn btn-primary px-5 py-2" onclick="location.href='/admin/contents'">컨텐츠 관리</button>
 </div>
-
-<form class="form" id="form">
-	<label for="main"><h4>카테고리</h4></label><br>
+<br><br><br>
+<form class="form" id="form" style="margin-top: 50px;">
+	<label for="main"><h4>카테고리</i></i></h4></label><br>
             
             <!-- <select name="main" id="main">
             </select>
@@ -62,20 +62,20 @@
 					         <!-- <select name="main" id="main">
 				            </select> -->
             				<br>
-            				<input type="text" name="main" id="mainInput" value="it"><br>
+            				<input type="text" name="main" id="mainInput" value="it" class="form-control"><br>
               				<label for="middle">중분류</label> 
              				<!--  <select name="middle" id="middle">
             				</select> --> 
             				<br>
-            				<input type="text" name="middle" id="middleInput" value="프로그래밍"><br>
+            				<input type="text" name="middle" id="middleInput" value="프로그래밍" class="form-control"><br>
               				<label for="sub">소분류</label>
               				<!-- <select name="sub" id="sub">
             				</select> -->
             				<br>
-            				<input type="text" name="sub" id="subInput"><br>
+            				<input type="text" name="sub" id="subInput" class="form-control"><br>
               				<label for="detail">상세분류</label>
               				<br>
-            				<input type="text" name="detail" id="detailInput"><br>
+            				<input type="text" name="detail" id="detailInput" class="form-control"><br>
 						</div>
 					</div>
 				</div>
@@ -100,10 +100,10 @@
 					<div class="d-flex align-items-start">
 						<div class="flex-grow-1">
 							<label for="title">제목</label><br>
-							<input type="text" id="title" name="title">
-			
+							<input type="text" id="title" name="title" class="form-control">
+							<br>
 							<p>내용 등록 </p>
-							<textarea rows="8" cols="50" id="content" name="content"></textarea>
+							<textarea rows="8" cols="50" id="content" name="content" class="form-control"></textarea>
 		
 						</div>
 					</div>
@@ -125,27 +125,28 @@
 					<div class=" py-4 card-body">
 						<div class="d-flex align-items-start">
 							<div class="flex-grow-1">
+								<div class="d-inline-block ms-3">
+									<i class="fa-solid fa-q"></i> <span></span><i class="fa-sharp fa-solid fa-${cnt }"></i>
+								</div><br><br>
 								<label for="title">제목</label><br>
-								<p> <input type="text" id="question" name="question" class="flex-grow-1"></p>
+								<input type="text" id="question" name="question" class="form-control">
+								<br>
 								<div class="mb-0">
 									<label for="choice">보기 문항</label>
 									<p>
-									1. <input type="text" id="choice1" name="choice1" ><br>
-									2. <input type="text" id="choice2" name="choice2"><br>
-									3. <input type="text" id="choice3" name="choice3"><br>
-									4. <input type="text" id="choice4" name="choice4"><br>
+									1. <input type="text" id="choice1" name="choice1" class="form-control" ><br>
+									2. <input type="text" id="choice2" name="choice2" class="form-control"><br>
+									3. <input type="text" id="choice3" name="choice3" class="form-control"><br>
+									4. <input type="text" id="choice4" name="choice4" class="form-control"><br>
 									</p>
 								</div>
 								<div class="mb-0">
-									<h5 class="mb-2">정답</h5>
-									<input type="number" min="1" max="4" id="answer" name="answer" ><br>
-									<h5 class="mb-2">해설</h5>
-									<textarea rows="3" cols="50" id="commentary" name="commentary"></textarea>
+									<label for="answer">정답</label>
+									<input type="number" min="1" max="4" id="answer" name="answer" class="form-control"><br>
+									<label for="commentary">해설</label>
+									<textarea rows="3" cols="50" id="commentary" name="commentary" class="form-control"></textarea>
 								</div>
-								<input type="hidden" id="knowSeq" name="knowSeq" value=${knowSeq }>
-							</div>
-							<div class="d-inline-block ms-3">
-								<i class="fa-light fa-${cnt }"></i>
+								<input type="hidden" id="knowSeq" name="knowSeq" value=${knowSeq } >
 							</div>
 						</div>
 					</div>
@@ -154,8 +155,10 @@
 		</div>
 	</c:forEach>	
 <!-- form(전체 컨텐츠) submit 버튼  -->			
-	<input id="submitBtn" type="submit" value="등록">
-		
+	<!-- <input id="submitBtn" type="submit" value="등록"> -->
+	<div class="mb-3 text-center" style="margin-top:30px;"> 
+	<button id="submitBtn" type="submit" class="btn btn-primary px-5 py-2">	등록 </button>
+	</div>
 </form>
 	
 <!-- 관리자 비로그인시 화면X  -->	
@@ -168,7 +171,13 @@
 </c:choose>
 	
 </div>
+
+
+
+
+
 </body>
+
 
 <script>
 /* $(document).ready(function () { */

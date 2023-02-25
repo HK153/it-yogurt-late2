@@ -10,45 +10,10 @@
     <link href="/css/header.css" rel="stylesheet">
     <link href="/css/footer.css" rel="stylesheet">
     <link href="/css/container.css" rel="stylesheet">
-     <link href="/css/admin.css" rel="stylesheet">
-     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
+    <link href="/css/admin.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"
 		    rel="stylesheet"/>
 <title> 커뮤니티 | 게시판 </title>
-
-<style>
-.tableList:hover {
-	background-color: #91ACCC;
-	color: white;
-	cursor: pointer;
-}
-.page-link {
-  color: #fff; 
-  background-color: #91ACCC;
-  border: 1px solid #ccc; 
-}
-.page-item.active .page-link {
- z-index: 1;
- color: #555;
- font-weight:bold;
- background-color: #f1f1f1;
- border-color: #ccc;
- 
-}
-.page-link:focus, .page-link:hover {
-  color: #000;
-  background-color: #fafafa; 
-  border-color: #ccc;
-}
-.fas {
-line-height: inherit;
-}
-.form {
-	margin-top: 20%;
-}
-th{
-	width: 300px;
-}
-</style>
 </head>
 <body>
 <%@include file="../common/nav.jsp"%>
@@ -66,9 +31,10 @@ th{
 			</tr>
 		</thead>			
 			<tbody class="listData">
+			<c:set var="num" value="${paging.totalCount - ((paging.cri.page-1)* 10)}"/>
 			<c:forEach items="${boardList }" var="list">
 			<tr class="tableList" onClick="location.href='/board/${list.boardSeq}'">
-				<td id ="boardSeq">${list.boardSeq }</td>
+				<td id ="boardSeq">${num}</td>	
 				<td>
 				<span class="badge bg-secondary text-decoration-none link-light"> ${list.sub }</span>
 				</td>
@@ -76,6 +42,7 @@ th{
 				<td>${list.nickname }</td>
 				<td>${list.viewcount }</td>
 			</tr>
+			<c:set var="num" value="${num-1 }"></c:set>
 			</c:forEach>
 			</tbody>
 			</table>
@@ -150,19 +117,21 @@ function go_page(pageNum){
 		dataType: "json",
 		success: function(result){
 			let list = result.boardList;
+			let paging = result.paging; 
+			let number = (paging.totalCount - ((paging.cri.page-1)* 10));
 			let content = '';
 			for(let i=0;i<list.length;i++){
 				content += '<tr class="tableList" onClick="window.location=\'/board/'+list[i].boardSeq+'\'">';
-				content += '<td id ="boardSeq">' + list[i].boardSeq +'</td>';
+				content += '<td id ="boardSeq">' + number +'</td>';
 				content += '<td><span class="badge bg-secondary text-decoration-none link-light"> '+ list[i].sub +'</span></td>';
 				content +=	'<td style="text-align: left;">'+ list[i].title+ '</td>';
 				content +=	'<td>'+ list[i].nickname + '</td>';
 				content += '<td>' + list[i].viewcount + '</td>';
 				content += '</tr>';
+				number = number-1;
 			}
 			$('.listData').html(content);	
 			
-			let paging = result.paging;
 			let content2 = '';
 			
 				
@@ -201,52 +170,5 @@ function go_page(pageNum){
 
 </script>
 
-<%-- 						"<tr id="+ajaxTr+">"+
-						"<td>"+\${list[i].knowSeq}+"</td>"+
-						<td><a href="<%=request.getContextPath()%>/detail/\${list[i].knowSeq}">${list.title}</a></td>
-						<td>\${list[i].insertDate }</td>
-						<td>\${list[i].viewcount }</td>
-						<td>관리자</td>	
-						<td><input type="button" id="quizBtn" value="퀴즈 풀러가기" onClick="location.href='${pageContext.request.contextPath}/quiz/\${list.knowSeq}'"></td>
-					</tr> --%>
-
-
-
-<!-- <script>
-function go_page(pageNum){
-	
-	var pageNum = pageNum;
-	var boardList = boardList.serialiaze();
-	
-$.ajax({
-    url :'board/list'+ pageNum,
-    type: 'GET',
-    data: {},
-    success: result => {
-      success(result);
-      var content = '';
-      var content2 = '';
-      
-     $.each(result, function(key, value) {
-    	 
-     content += '<tr class="tableList" onClick="location.href=\'/board/'+${list.boardSeq}+''">';
-	 content += '<td id ="boardSeq">' + ${list.boardSeq } +'</td>';
-	 content +=	'<td>'+ ${list.category } +'</td>'
-	 content +=	'<td style="display : flex;">'+ ${list.title }+ '</td>'
-	 content +=	'<td>'+ ${list.nickname } + '</td>'
-	 content += '<td>' + ${list.viewcount } + '</td>'
-	 content += '</tr>'
-     });
-     
-     $(".listData").html(content); 
-     
-    },
-    error: (request) => {
-      error(request);
-    },
-  });
-},
-}
-</script> -->
 <%@include file="../common/footer.jsp" %>
 </html>

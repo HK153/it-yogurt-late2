@@ -108,14 +108,19 @@ public class UserServiceImpl implements UserService {
 		return dao.getUserInfo(userSeq);
 	}
 
-
 	@Override
 	public void updateUserInfo(Map<Object, Object> map) {
 		dao.updateUserInfo(map);
 	}
 
-    @Override
-    public int setWeakCategoryByUser(UserDTO userDto) {
-        return dao.setWeakCategoryByUser(userDto);
-    }
+	@Override
+	public void updateUserDeclaration(int user_seq) {
+		dao.updateUserDeclaration(user_seq);
+	}
+  
+  @Override
+  public int setWeakCategoryByUser(UserDTO userDto) {
+      return dao.setWeakCategoryByUser(userDto);
+  }
+
 }

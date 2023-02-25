@@ -10,49 +10,24 @@
     <link href="/css/header.css" rel="stylesheet">
     <link href="/css/footer.css" rel="stylesheet">
     <link href="/css/container.css" rel="stylesheet">
-     <link href="/css/admin.css" rel="stylesheet">
+    <link href="/css/admin.css" rel="stylesheet">
+ 	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" rel="stylesheet"/>
+    
 
 <title> 관리자 | 유저관리 </title>
 </head>
 
 <style>
-.tableList:hover {
-	background-color: #91ACCC;
-	color: white;
-	cursor: pointer;
-}
-.page-link {
-  color: #fff; 
-  background-color: #91ACCC;
-  border: 1px solid #ccc; 
-}
 
-.page-item.active .page-link {
- z-index: 1;
- color: #555;
- font-weight:bold;
- background-color: #f1f1f1;
- border-color: #ccc;
-}
-
-.page-link:focus, .page-link:hover {
-  color: #000;
-  background-color: #fafafa; 
-  border-color: #ccc;
-}
-
-#user-form {
-	margin-top: 20%;
-}
 </style>
 <%@include file="../common/nav.jsp" %>
 <body>
 <div class="container">
     <div class="form" id="user-form">
-		<button id="" onclick="location.href='/admin/user'">회원관리</button>
-		<button onclick="location.href='/admin/contents'">컨텐츠 관리</button> <br><br>
+		<button class="btn btn-primary px-5 py-2" onclick="location.href='/admin/user'">회원관리</button>
+		<button class="btn btn-primary px-5 py-2" onclick="location.href='/admin/contents'">컨텐츠 관리</button> <br><br>
 		<h3 id="main" > 전체 회원 </h3> <br>
-		<table class="form" border=3>
+		<table class="table">
 			<tr>
 				<th> 번호 </th>
 				<th> 이메일 </th>
@@ -76,13 +51,14 @@
 			</c:forEach>
 			</tbody>
 		</table>
-		
+	
+
 	<div class="paging">
 		<nav aria-label="Page navigation example" style="margin: 10px;">
 			<ul class="pagination justify-content-center">
-	        <li class="page-item"><a href='javascript:void(0);' onclick="go_page(1); return false;" class="page-link">처음</a></li>
+	        <li class="page-item"><span><a href='javascript:void(0);' onclick="go_page(1); return false;" class="page-link"><i class="fas fa-angle-double-left"></i></a></span></li>
 	    <%-- <c:if test="${paging.prev}"> --%>
-	        <li class="page-item"><a href='javascript:void(0);' onclick="go_page(${paging.startPage-1});" class="page-link">이전</a></li>
+	        <li class="page-item"><span><a href='javascript:void(0);' onclick="go_page(${paging.startPage-1});" class="page-link"><i class="fas fa-angle-left"></i></a></span></li>
 	   <%--  </c:if> --%>
 	    <c:forEach begin="${paging.startPage}" end="${paging.endPage}" var="num">
 	    	<c:choose>
@@ -95,12 +71,13 @@
 			</c:choose>	        
 	    </c:forEach>
 	    <%-- <c:if test="${paging.next && paging.endPage>0}"> --%>
-	        <li class="page-item"><a href='javascript:void(0);' onclick="go_page(${paging.endPage+1});return false;" class="page-link">다음</a></li>
+	        <li class="page-item"><span><a href='javascript:void(0);' onclick="go_page(${paging.endPage+1});return false;" class="page-link"><i class="fas fa-angle-right"></i></a></span></li>
 		 <%--</c:if> --%>
-	        <li class="page-item"><a href='javascript:void(0);' onclick="go_page(${maxpage});return false;" class="page-link">끝</a></li>
+	        <li class="page-item"><span><a href='javascript:void(0);' onclick="go_page(${maxpage});return false;" class="page-link"><i class="fas fa-angle-double-right"></i></a></span></li>
 			</ul>
-	</nav>
+		</nav>
 	</div>
+	
 </div>
 
 </div>
@@ -158,11 +135,11 @@ function go_page(pageNum){
 				
 				content2 += '<nav aria-label="Page navigation example" style="margin: 10px;">';
 				content2 += '<ul class="pagination justify-content-center">';
-				content2 += '<li class="page-item"><a href=\'javascript:void(0);\' onclick="go_page(1); return false;" class="page-link">처음</a></li>';
+				content2 += '<li class="page-item"><a href=\'javascript:void(0);\' onclick="go_page(1); return false;" class="page-link"><i class="fas fa-angle-double-left"></i></a></li>';
 				
 				
 				/* if(paging.prev){ */
-					content2 += '<li class="page-item"><a href=\'javascript:void(0);\' onclick="go_page('+(Number(paging.startPage)-1)+');return false;" class="page-link">이전</a></li>';
+					content2 += '<li class="page-item"><a href=\'javascript:void(0);\' onclick="go_page('+(Number(paging.startPage)-1)+');return false;" class="page-link"><i class="fas fa-angle-left"></i></a></li>';
 				/* } */
 				for (let num = Number(paging.startPage) ; num <=Number(paging.endPage); num++){
 					if (num == Number(paging.cri.page)){
@@ -174,9 +151,9 @@ function go_page(pageNum){
 					}
 				}
 				if (paging.next && paging.endPage>0){
-					content2 += '<li class="page-item"><a href=\'javascript:void(0);\' onclick="go_page('+ (Number(paging.endPage)+1)+');return false;" class="page-link">다음</a></li>';
+					content2 += '<li class="page-item"><a href=\'javascript:void(0);\' onclick="go_page('+ (Number(paging.endPage)+1)+');return false;" class="page-link"><i class="fas fa-angle-right"></i></a></li>';
 				}
-				content2 += '<li class="page-item"><a href=\'javascript:void(0);\' onclick="go_page('+ Number(result.maxPage) +');return false;" class="page-link">끝</a></li>';
+				content2 += '<li class="page-item"><a href=\'javascript:void(0);\' onclick="go_page('+ Number(result.maxPage) +');return false;" class="page-link"><i class="fas fa-angle-double-right"></i></a></li>';
 				content2 += '</ul>';
 				content2 += '</nav>';
 			
