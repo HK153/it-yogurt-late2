@@ -14,12 +14,4 @@
       LIMIT ${start}, ${limit};
   </select>
 
-  <select id="getWrongAnswerCountByUser" resultType="int" parameterType="int">
-    SELECT COUNT(*)
-    FROM learn_record l
-           INNER JOIN quiz q ON l.quiz_seq = q.quiz_seq
-           INNER JOIN (SELECT category_seq, know_seq FROM knowledge) AS c ON c.know_seq = q.know_seq
-    WHERE is_right = 0
-      AND l.user_seq = #{userSeq};
-  </select>
 </mapper>

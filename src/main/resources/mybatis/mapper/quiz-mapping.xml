@@ -24,19 +24,4 @@
     where quiz_seq = #{quizSeq}
   </select>
 
-  <select id="getWrongAnswerByUser" resultType="recordquizdto" parameterType="String">
-    SELECT *
-    FROM learn_record l
-           INNER JOIN quiz q ON l.quiz_seq = q.quiz_seq
-           INNER JOIN (SELECT category_seq, know_seq FROM knowledge) AS c ON c.know_seq = q.know_seq
-    WHERE is_right = 0
-      AND l.user_seq = #{userSeq};
-  </select>
-
-  <select id="getWeakQuizListByUser" resultType="recordquizdto" parameterType="int">
-    SELECT* FROM quiz q
-                   INNER JOIN (SELECT category_seq, know_seq FROM knowledge) AS c ON c.know_seq = q.know_seq
-    WHERE category_seq = #{weakCategorySeq}
-      LIMIT #{start},#{end};
-  </select>
 </mapper>
