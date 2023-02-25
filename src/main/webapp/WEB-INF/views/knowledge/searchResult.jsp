@@ -38,10 +38,17 @@
 			
 			<h3 style="text-align: center;">검색결과 목록</h3>
 			<form action="<%=request.getContextPath()%>/knowledge/searchResult">
-			<div id="searchDiv">
-			<input type="text" placeholder="검색어 입력" name="keyword" id="keyword">
+			<!-- 카테고리 선택 -->
+			<div id="categoryDiv">
+			<select id="categoryChoice" onchange="changeCategory()">
+				<option value="all" >전체</option>
+				<option value="프로그래밍언어" >프로그래밍언어</option>
+				<option value="데이터베이스" >데이터베이스</option>
+			</select>
+				<!-- 검색창 -->
+				<input type="text" placeholder="검색어 입력" name="keyword" id="keyword">
                 <button type="submit" id="search">검색</button>
-             </div>
+			</div>
 			<table id="listTbl">
 				
 				<tr>

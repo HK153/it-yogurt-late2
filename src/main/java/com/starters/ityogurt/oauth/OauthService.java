@@ -27,7 +27,6 @@ public class OauthService {
     @Autowired
     UserService UserService;
 
-    //private final HttpServletResponse response;
     public void request(SocialLoginType socialLoginType, HttpServletResponse response) {
 
         String redirectURL;
@@ -54,7 +53,6 @@ public class OauthService {
             e.printStackTrace();
         }
     }
-
 
     public String requestAccessToken(SocialLoginType socialLoginType, String code) {
         String access_token = "";
@@ -83,11 +81,6 @@ public class OauthService {
 
         return email;
     }
-
-//    public UserDTO login(String email) {
-//        return UserService.insertUser(email);
-//
-//    }
 
     public String requestAccessTokenUsingURL(String code) {
         return googleOauth.requestAccessTokenUsingURL(code);

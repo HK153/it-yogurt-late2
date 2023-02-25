@@ -47,7 +47,14 @@
         <!-- Masthead Heading-->
         <h2 style="color: #2c3e50" class="pb-2">바쁜 당신에게,</h2>
         <h1 class="masthead-heading text-uppercase mb-0" style="color: #2c3e50">💫 떠먹여주는 it 지식 💫</h1>
-        <button type="button" class="button btn-login mt-5 mb-5" id="btn-login" onclick="window.location.href='/user'">JOIN US!</button>
+        <c:choose>
+            <c:when test="${ not empty sessionScope.user_seq}">
+                <button type="button" class="button btn-login mt-5 mb-5" id="btn-login" onclick="window.location.href='/user'">Logout!</button>
+            </c:when>
+            <c:otherwise>
+                <button type="button" class="button btn-login mt-5 mb-5" id="btn-login" onclick="window.location.href='/user'">JOIN US!</button>
+            </c:otherwise>
+        </c:choose>
     </div>
 </header>
 </body>

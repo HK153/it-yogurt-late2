@@ -46,6 +46,7 @@ h3{
 #keyword{
 	border-radius: 15px;
 	width: 300px;
+    margin-left: 40;
 }
 
 #searchDiv{
@@ -55,7 +56,7 @@ h3{
 }
 
 #search{
-  width: 100px;
+  width: 80px;
   height: 40px;
   border-style: solid;
   border-width: medium;

@@ -74,7 +74,7 @@ public class KakaoOauth implements SocialOauth {
             System.out.println(sb.toString());
             //결과 코드가 200이라면 성공
             int responseCode = conn.getResponseCode();
-            System.out.println("responseCode : " + responseCode);
+
             //요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line = "";
@@ -91,9 +91,6 @@ public class KakaoOauth implements SocialOauth {
 
             access_token = element.getAsJsonObject().get("access_token").getAsString();
             refresh_token = element.getAsJsonObject().get("refresh_token").getAsString();
-
-            //System.out.println("access_token : " + access_token);
-            //System.out.println("refresh_token : " + refresh_token);
 
             br.close();
             bw.close();
@@ -119,9 +116,8 @@ public class KakaoOauth implements SocialOauth {
             conn.setRequestProperty("Authorization",
                 "Bearer " + token); //전송할 header 작성, access_token전송
 
-            //결과 코드가 200이라면 성공
+
             int responseCode = conn.getResponseCode();
-            //System.out.println("responseCode : " + responseCode);
 
             //요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -131,7 +127,6 @@ public class KakaoOauth implements SocialOauth {
             while ((line = br.readLine()) != null) {
                 result += line;
             }
-            //System.out.println("response body : " + result);
 
             //Gson 라이브러리로 JSON파싱
             JsonParser parser = new JsonParser();
@@ -145,9 +140,6 @@ public class KakaoOauth implements SocialOauth {
                 email = element.getAsJsonObject().get("kakao_account").getAsJsonObject()
                     .get("email").getAsString();
             }
-
-            //  System.out.println("id : " + id);
-            System.out.println("email : " + email);
 
             br.close();
 
