@@ -12,36 +12,41 @@ import com.starters.ityogurt.service.CategoryService;
 @Service("categoryservice")
 public class CategoryServiceImpl implements CategoryService {
 
-    @Autowired
-    CategoryDAO dao;
+	@Autowired
+	CategoryDAO dao;
 
-    @Override
-    public List<CategoryDTO> getAllCategoryList() {
-        return dao.getAllCategoryList();
-    }
-    
-    public CategoryDTO getCategoryByCategorySeq(String categorySeq) {
-        return dao.getCategoryByCategorySeq(categorySeq);
-    }
+	@Override
+	public List<CategoryDTO> getAllCategoryList() {
+		return dao.getAllCategoryList();
+	}
 
-    @Override
-    public int countAllSub() {
-        return dao.countAllSub();
-    }
+	public CategoryDTO getCategoryByCategorySeq(String categorySeq) {
+		return dao.getCategoryByCategorySeq(categorySeq);
+	}
 
-    @Override
-    public List<CategoryDTO> getCategoryByType(String type, String typeValue) {
-        return dao.getCategoryByType(type, typeValue);
-    }
+	@Override
+	public int countAllSub() {
+		return dao.countAllSub();
+	}
 
-    @Override
-    public CategoryDTO getCategoryByAllType(CategoryDTO categoryDTO) {
-        return dao.getCategoryByAllType(categoryDTO);
+	@Override
+	public List<CategoryDTO> getCategoryByType(String type, String typeValue) {
+		return dao.getCategoryByType(type, typeValue);
+	}
 
-    }
-    
-    	@Override
+	@Override
+	public CategoryDTO getCategoryByAllType(CategoryDTO categoryDTO) {
+		return dao.getCategoryByAllType(categoryDTO);
+
+	}
+
+	@Override
 	public void insertCategory(CategoryDTO categoryDTO) {
 		dao.insertCategory(categoryDTO);
+	}
+
+	@Override
+	public CategoryDTO getCategoryByUserSeq(int userSeq) {
+		return dao.getCategoryByUserSeq(userSeq);
 	}
 }

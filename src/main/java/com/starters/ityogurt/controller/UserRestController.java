@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 public class UserRestController {
@@ -84,10 +83,6 @@ public class UserRestController {
 
         userService.AfterLoginProcess(result,request.getSession());
 
-        int weakCategory = categoryService.findWeakCategoryByCategorySeq(result.getUserSeq());
-        result.setWeakCategorySeq(weakCategory);
-        int weakSucceess = userService.setWeakCategoryByUser(result);
-
         if(!isStringEmpty(knowSeq))
         {
            return "/quiz/"+knowSeq;
@@ -98,12 +93,9 @@ public class UserRestController {
     
     // 로그아웃 임시(작동은 하나 오류남)
     @GetMapping("/user/o")
-    public ModelAndView logout(HttpServletRequest request) {
+    public void logout(HttpServletRequest request) {
     	HttpSession session = request.getSession();
-    	ModelAndView mv = new ModelAndView();
     	session.invalidate();
-    	mv.setViewName("/");
-    	return mv;
     }
     
 

@@ -27,6 +27,41 @@
 	#tblDiv {
 		margin-top: 20%;
 	}
+	
+	.tableList:hover {
+	background-color: #91ACCC;
+	color: white;
+	cursor: pointer;
+}
+.page-link {
+  color: #fff; 
+  background-color: #91ACCC;
+  border: 1px solid #ccc; 
+}
+.page-item.active .page-link {
+ z-index: 1;
+ color: #555;
+ font-weight:bold;
+ background-color: #f1f1f1;
+ border-color: #ccc;
+ 
+}
+.page-link:focus, .page-link:hover {
+  color: #000;
+  background-color: #fafafa; 
+  border-color: #ccc;
+}
+.fas {
+line-height: inherit;
+}
+.form {
+	margin-top: 20%;
+}
+/* th{ */
+/* 	width: 150px; */
+/* }	 */
+	
+	
 </style>
 <%@include file="../common/nav.jsp"%>
 <body>
@@ -36,11 +71,7 @@
 			<h3 style="text-align: center;">매일지식 목록</h3>
 			<!-- 검색을 위한 form -->
 			<form action="<%=request.getContextPath()%>/knowledge/searchResult" id="knowledgeForm">
-			<!-- 검색창 -->
-			<div id="searchDiv">
-			<input type="text" placeholder="검색어 입력" name="keyword" id="keyword">
-                <button type="submit" id="search">검색</button>
-			</div>
+			
 			<!-- 카테고리 선택 -->
 			<div id="categoryDiv">
 			<select id="categoryChoice" onchange="changeCategory()">
@@ -48,9 +79,12 @@
 				<option value="프로그래밍언어" >프로그래밍언어</option>
 				<option value="데이터베이스" >데이터베이스</option>
 			</select>
+				<!-- 검색창 -->
+				<input type="text" placeholder="검색어 입력" name="keyword" id="keyword">
+                <button type="submit" id="search">검색</button>
 			</div>
 			<!-- 지식 목록 제목-->
-			<table id="listTbl">
+			<table class="table">
 				<tr>
 					<th>번호</th>
 					<th>제목</th>
@@ -74,6 +108,10 @@
 					</c:forEach>
 				</tbody>
 			</table>
+			
+<!-- 			<div id="searchDiv"> -->
+			
+<!-- 			</div> -->
 			<!-- 페이징 -->
 			<div class="paging">
 				<nav aria-label="Page navigation example" style="margin: 10px;">

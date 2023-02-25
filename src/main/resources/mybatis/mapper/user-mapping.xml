@@ -76,6 +76,6 @@
 	</select>
 
 	<update id="updateUserInfo" parameterType="hashmap">
-		UPDATE user SET nickname=#{nickname}, phone=#{phone} WHERE user_seq=#{userSeq}
+		UPDATE user SET nickname=#{nickname}, phone=#{phone}, password=#{password} WHERE user_seq=#{userSeq}
 	</update>
 </mapper>

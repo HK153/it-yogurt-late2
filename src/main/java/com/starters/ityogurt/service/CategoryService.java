@@ -14,4 +14,6 @@ public interface CategoryService {
 
     void insertCategory(CategoryDTO categoryDTO);
     
+	CategoryDTO getCategoryByUserSeq(int userSeq);
+    
 }
