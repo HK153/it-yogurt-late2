@@ -55,10 +55,6 @@ public class MyPageController {
     CategoryService categoryService;
 
     @Autowired
-    @Qualifier("categoryservice")
-    CategoryService categoryService;
-
-    @Autowired
     @Qualifier("recodequizservice")
     LearnRecordQuizService service;
 
