@@ -1,53 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.starters.ityogurt.dao.UserDAO">
 
- <select id="getAllUserlist" resultType="userdto">
-	select *
-	from user order by user_seq
-	where admin is null
- </select>
+	<select id="getAllUserlist" resultType="userdto">
+		select *
+		from user order by user_seq
+			where admin is null
+	</select>
 
- <select id="getAllUserlistLimit" resultType="userdto" parameterType="criteria">
-	select *
-	from user
-	where admin is null
-	order by user_seq
-	limit #{pageStart}, #{perPageNum} 
- </select>
+	<select id="getAllUserlistLimit" resultType="userdto" parameterType="criteria">
+		select *
+		from user
+		where admin is null
+		order by user_seq
+			limit #{pageStart}, #{perPageNum}
+	</select>
 
- <select id="getUserByUserSeq" resultType="userdto" parameterType="int">
-	select *
-	from user
-	where user_seq = #{userSeq}
-</select>
+	<select id="getUserByUserSeq" resultType="userdto" parameterType="int">
+		select *
+		from user
+		where user_seq = #{userSeq}
+	</select>
 
- <select id="countAllUser" resultType="int">
-	select count(*)
-	from user
-	where admin is null
-</select>
+	<select id="countAllUser" resultType="int">
+		select count(*)
+		from user
+		where admin is null
+	</select>
 
- <select id="declarationUser" resultType="userdto" parameterType="int">
-	select *
-	from user
-	where declaration >= #{declaration}
-</select>
+	<select id="declarationUser" resultType="userdto" parameterType="int">
+		select *
+		from user
+		where declaration >= #{declaration}
+	</select>
 
-<delete id="deleteUser" parameterType="int">
-	delete
-	from user
-	where user_seq = #{userSeq}
-</delete>
+	<delete id="deleteUser" parameterType="int">
+		delete
+		from user
+		where user_seq = #{userSeq}
+	</delete>
 
-<insert id="insertUser" parameterType="userdto">
-    insert into user(email, nickname, insert_date, phone, lastlogin_date,
-                     category_seq, password, access_token, refresh_token)
-    values (#{email}, #{nickname}, now(), #{phone}, now(),
-            #{categorySeq}, #{password}, #{accessToken}, #{refreshToken})
-</insert>
+	<insert id="insertUser" parameterType="userdto">
+		insert into user(email, nickname, insert_date, phone, lastlogin_date,
+										 category_seq, password, access_token, refresh_token)
+		values (#{email}, #{nickname}, now(), #{phone}, now(),
+						#{categorySeq}, #{password}, #{accessToken}, #{refreshToken})
+	</insert>
 
 	<select id="getUserByUserEmail" resultType="userdto" parameterType="String">
 		select *
@@ -60,17 +60,17 @@
 	</update>
 
 	<update id="setAttendanceByUserSeq" parameterType="int">
-    UPDATE user
-    SET attendance=#{attendance}
-    WHERE user_seq = #{userSeq};
-  </update>
+		UPDATE user
+		SET attendance=#{attendance}
+		WHERE user_seq = #{userSeq};
+	</update>
 
 	<update id="setLastLoginDateByUserSeq" parameterType="int">
 		UPDATE user
 		SET lastlogin_date = NOW()
 		WHERE user_seq = #{userSeq};
 	</update>
-	
+
 	<select id="getUserInfo" parameterType="int" resultType="userdto">
 		select * from user where user_seq=#{user_seq}
 	</select>
@@ -78,12 +78,15 @@
 	<update id="updateUserInfo" parameterType="hashmap">
 		UPDATE user SET nickname=#{nickname}, phone=#{phone} WHERE user_seq=#{userSeq}
 	</update>
+
+	<update id="setWeakCategoryByUser" parameterType="userdto">
+		UPDATE user SET weak_category_seq=#{weakCategorySeq} WHERE user_seq = #{userSeq};
+	</update>
 	
 	<update id="updateUserDeclaration" parameterType="int">
 		UPDATE user 
 		SET declaration= declaration +1 
 		WHERE user_seq=#{userSeq}
 	</update>
-	
 	
 </mapper>

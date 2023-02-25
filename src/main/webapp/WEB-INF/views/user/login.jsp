@@ -14,9 +14,9 @@
     <title>Title</title>
 </head>
 <style>
-    #login_form {
-        margin-top: 20%;
-    }
+  #login_form {
+    margin-top: 20%;
+  }
 </style>
 <body>
 <%@include file="../common/nav.jsp" %>
