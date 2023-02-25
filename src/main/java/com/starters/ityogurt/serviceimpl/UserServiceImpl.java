@@ -108,4 +108,9 @@ public class UserServiceImpl implements UserService {
 		
 	}
 
+    @Override
+    public int setWeakCategoryByUser(UserDTO userDto) {
+        return dao.setWeakCategoryByUser(userDto);
+    }
+
 }
