@@ -32,4 +32,11 @@
     WHERE is_right = 0
       AND l.user_seq = #{userSeq};
   </select>
+
+  <select id="getWeakQuizListByUser" resultType="recordquizdto" parameterType="int">
+    SELECT* FROM quiz q
+                   INNER JOIN (SELECT category_seq, know_seq FROM knowledge) AS c ON c.know_seq = q.know_seq
+    WHERE category_seq = #{weakCategorySeq}
+      LIMIT #{start},#{end};
+  </select>
 </mapper>

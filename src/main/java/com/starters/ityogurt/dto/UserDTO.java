@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 public class UserDTO { 
 	
-	int userSeq, declaration, allQuizCount, attendance, categorySeq, isPass;
+	int userSeq, declaration, allQuizCount, attendance, categorySeq, weakCategorySeq, isPass;
 	String email, nickname, insertDate, img;
 	String admin, phone, lastloginDate, password;
 	String accessToken, refreshToken;
@@ -109,4 +109,11 @@ public class UserDTO {
 		this.refreshToken = refreshToken;
 	}
 
+	public int getWeakCategorySeq() {
+		return weakCategorySeq;
+	}
+
+	public void setWeakCategorySeq(int weakCategorySeq) {
+		this.weakCategorySeq = weakCategorySeq;
+	}
 }
